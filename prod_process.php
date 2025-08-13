@@ -117,9 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>ak_prod_process</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+        * {
+            box-sizing: border-box;
         }
 
         textarea {
@@ -152,12 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: red;
         }
 
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            /* font-family: system-ui, sans-serif; */
             background-color: #f9fafb;
         }
 
@@ -197,7 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.6rem 1.2rem;
+            padding: 0.2rem 0.5rem;
             font-size: 0.85rem;
             font-weight: 500;
             background-color: #3b82f6;
@@ -226,7 +220,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="card">
         <h3>Bulk Image Watermark</h3>
         <form method="post">
-            <label>Enter image URLs (one per line):</label><br>
             <textarea name="image_urls" placeholder="https://example.com/image1.jpg"></textarea><br><br>
             <button type="submit">Process Images</button>
         </form>
