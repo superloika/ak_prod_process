@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>ak_prod_process</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <p id="statusMessage" style="color: green; font-size: 14px;"></p>
+
+    <!-- get page source -->
+    <div class="card">
+        <h3>Get page source</h3>
+        <div class="section">
+            <form id="fetchPageSourceForm">
+                <input type="text" id="url" placeholder="Enter webpage link" required autofocus>
+                <button type="submit">Get Data</button>
+            </form>
+        </div>
+        <br>
+        <textarea id="imageLinks" placeholder="Product img links" rows="10"></textarea>
+        <textarea id="sourceCode" placeholder="Page source" rows="15" readonly></textarea>
+        <button id="btnCopyPageSource">Copy Page Source</button>
+    </div>
+    <br>
+
+    <!-- Bulk Image Watermark -->
+    <div class="card">
+        <h3>Bulk Image Watermark</h3>
+
+        <form id="watermarkForm">
+            <textarea name="image_urls" placeholder="Product img links"></textarea>
+            <button type="submit">Process Images</button>
+        </form>
+
+        <div id="resultsContainer" style="margin-top:20px;"></div>
+    </div>
+    <br>
+
+    <!-- parser -->
+    <div class="card">
+        <h3>HTML Parser</h3>
+        <div class="container">
+            <div class="card">
+                <button id="pasteClipboardBtn">Paste from Clipboard</button>
+                <textarea id="sourceHTML" placeholder="Paste your HTML here (Page source)"></textarea>
+                <button id="processBtn">Parse</button>
+            </div>
+            <br>
+            <div class="card">
+                <input type="text" id="productSKU" placeholder="SKU" readonly>
+                <input type="text" id="productTitle" placeholder="Title" readonly>
+                <button id="btn_productTitle">Copy Title</button>
+                <input type="text" id="productShortDesc" placeholder="Short description">
+                <button id="btn_productShortDesc">Copy Short Description</button>
+                <textarea id="outputHTML" placeholder="Body (processed HTML)"></textarea>
+                <button id="copyOutputBtn">Copy Body</button>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <div class="card">
+                <h3>Preview:</h3>
+                <div id="templatePreview" class="template-preview"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script>
+        const processBtn = document.getElementById('processBtn');
+        const sourceHTML = document.getElementById('sourceHTML');
+        const outputHTML = document.getElementById('outputHTML');
+        const templatePreview = document.getElementById('templatePreview');
+
+        const pasteClipboardBtn = document.getElementById('pasteClipboardBtn');
+        const copyOutputBtn = document.getElementById('copyOutputBtn');
+
+        // Temporary template
+const htmlTemplate = 
+`<div id="prod_desc" class="kcard">
+<div class="kcard-b">
+PROD_DESC
+</div>
+<div></div>
+</div>
+<div style="height: 20px;"></div>
+
+<div id="prod_specs" class="kcard">
+<div class="kcard-h">Product Specifications</div>
+<div class="kcard-b">
+SPECS_TABLE
+</div>
+</div>
+<div class="" style="height: 20px;"></div>
+
+<div id="prod_fitments" class="kcard">
+<div class="kcard-h">Fitments</div>
+<div class="kcard-b">
+<div id="Models" class="mb-5">
+FITMENTS_TABLE
+</div>
+</div>
+</div>
+<div class="" style="height: 20px;"></div>
+
+<div id="prod_acc" class="kcard">
+<div class="kcard-h">Accessories</div>
+<div class="kcard-b">[products name="accessories" skus="123"]</div>
+</div>`;
+
+        const statusMessage = document.getElementById("statusMessage");
+
+        function showMessage(msg) {
+            statusMessage.textContent = msg;
+            statusMessage.style.opacity = 1;
+
+            setTimeout(() => {
+                statusMessage.style.opacity = 0;
+                statusMessage.textContent = "";
+            }, 2000);
+        }
+
+        function copyInputValueById(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) {
+                console.error(`Element with ID "${elementId}" not found.`);
+                return;
+            }
+
+            const value = el.value ?? '';
+            
+            navigator.clipboard.writeText(value)
+                .then(() => {
+                    showMessage(`Copied value from #${elementId} to clipboard.`);
+                    console.log(`Copied value from #${elementId} to clipboard.`);
+                })
+                .catch(err => {
+                    console.error('Failed to copy:', err);
+                });
+        }
+
+        processBtn.addEventListener('click', () => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(sourceHTML.value, 'text/html');
+
+            // get SKU
+            const skuMatch = sourceHTML.value.match(/\bMK\d{5}\b/);
+            const prodSku = skuMatch ? (skuMatch[0]).replace('MK', 'AK') : "";
+
+            const prodTitle = doc.querySelector("article.info-wrap2 h1").innerHTML;
+
+            // Get .alert content
+            const alertDiv = doc.querySelector('.alert');
+            const prodDesc = alertDiv ? alertDiv.innerHTML.trim() : '';
+
+            const prodShortDesc = `${prodDesc} | Product Number: ${prodSku}`;
+
+            // Get .specsTable inside .inside-product-specs2
+            let specsHTML = '';
+            const specsContainer = doc.querySelector('.inside-product-specs2');
+            if (specsContainer) {
+                const table = specsContainer.querySelector('.specsTable');
+                if (table) {
+                    specsHTML = table.outerHTML.trim();
+                }
+            }
+
+            // Get .fitmentsTable outer HTML
+            const fitmentsTable = doc.querySelector('.fitmentsTable');
+            const fitmentsHTML = fitmentsTable ? fitmentsTable.outerHTML.trim() : '';
+
+            // Fill placeholders
+            let filledTemplate = htmlTemplate
+                .replace('PROD_DESC', `<strong>${prodDesc} | Product Number: ${prodSku}</strong>`)
+                .replace('SPECS_TABLE', specsHTML)
+                .replace('FITMENTS_TABLE', fitmentsHTML);
+
+            // Output results
+            document.getElementById("productSKU").value = prodSku;
+            document.getElementById("productShortDesc").value = prodShortDesc;
+            document.getElementById("productTitle").value = prodTitle;
+            outputHTML.value = filledTemplate;
+            templatePreview.innerHTML = filledTemplate;
+
+            showMessage("Done parsing the HTML!");
+        });
+
+        // Paste clipboard into source textarea
+        pasteClipboardBtn.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                sourceHTML.value = text;
+                showMessage("Pasted clipboard content into source!");
+            } catch (err) {
+                // alert("Failed to read clipboard: " + err);
+            }
+        });
+
+        // Copy output textarea to clipboard
+        copyOutputBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(outputHTML.value).then(() => {
+                showMessage("Output HTML copied to clipboard!");
+            });
+        });
+
+        document.getElementById("fetchPageSourceForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let url = document.getElementById("url").value.trim();
+
+            if (!url) {
+                alert("Please enter a valid URL.");
+                return;
+            }
+
+            fetch("get_page_source.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "url=" + encodeURIComponent(url)
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("sourceCode").value = data.source || "Failed to fetch source.";
+                document.getElementById("imageLinks").value = (data.images && data.images.length)
+                    ? data.images.join("\n")
+                    : "No images found.";
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error fetching data.");
+            });
+        });
+
+        document.getElementById('watermarkForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            const resultsDiv = document.getElementById('resultsContainer');
+            resultsDiv.innerHTML = "⏳ Processing...";
+
+            try {
+                const response = await fetch('process_imgs.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    resultsDiv.innerHTML = `<p style="color:red;">${data.error}</p>`;
+                    return;
+                }
+
+                let html = `<table border="1" cellpadding="5">
+                    <tr><th>Image URL</th><th>Status</th><th>Original</th><th>Watermarked</th></tr>`;
+
+                data.results.forEach(res => {
+                    html += `<tr>
+                        <td>${res.url}</td>
+                        <td>${res.status}</td>
+                        <td>${res.original ? `<a href="output/${encodeURIComponent(res.original)}" target="_blank">View</a>` : ''}</td>
+                        <td>${res.watermarked ? `<a href="output/${encodeURIComponent(res.watermarked)}" target="_blank">View</a>` : ''}</td>
+                    </tr>`;
+                });
+
+                html += '</table>';
+                resultsDiv.innerHTML = html;
+
+            } catch (err) {
+                resultsDiv.innerHTML = `<p style="color:red;">❌ Error: ${err.message}</p>`;
+            }
+        });
+
+        // 
+        const btnCopyPageSource = document.getElementById('btnCopyPageSource');
+        btnCopyPageSource.addEventListener('click', () => {
+            copyInputValueById('sourceCode');
+        });
+
+        const btn_productTitle = document.getElementById('btn_productTitle');
+        btn_productTitle.addEventListener('click', () => {
+            copyInputValueById('productTitle');
+        });
+
+        const btn_productShortDesc = document.getElementById('btn_productShortDesc');
+        btn_productShortDesc.addEventListener('click', () => {
+            copyInputValueById('productShortDesc');
+        });
+    </script>
+</body>
+
+</html>
