@@ -114,14 +114,9 @@
                 <button type="submit">Get Data</button>
             </form>
         </div>
-
-        <div class="section">
-            <textarea id="sourceCode" rows="15" readonly></textarea>
-        </div>
-
-        <div class="section">
-            <textarea id="imageLinks" rows="10" readonly></textarea>
-        </div>
+        <br>
+        <textarea id="sourceCode" placeholder="Page source" rows="15" readonly></textarea>
+        <textarea id="imageLinks" placeholder="Product img links" rows="10"></textarea>
     </div>
     <br>
 
@@ -130,7 +125,7 @@
         <h3>Bulk Image Watermark</h3>
 
         <form id="watermarkForm">
-            <textarea name="image_urls" placeholder="https://example.com/image1.jpg"></textarea><br><br>
+            <textarea name="image_urls" placeholder="https://example.com/image1.jpg"></textarea>
             <button type="submit">Process Images</button>
         </form>
 
@@ -145,16 +140,16 @@
         <div class="container">
             <div class="card">
                 <button id="pasteClipboardBtn">Paste from Clipboard</button>
+                <textarea id="sourceHTML" placeholder="Paste your HTML here (Page source)"></textarea>
                 <button id="processBtn">Parse</button>
-                <textarea id="sourceHTML" placeholder="Paste your HTML here..."></textarea>
             </div>
             <br>
             <div class="card">
-                <button id="copyOutputBtn">Copy Body</button>
                 <input type="text" id="productSKU" placeholder="SKU">
                 <input type="text" id="productTitle" placeholder="Title">
                 <input type="text" id="productShortDesc" placeholder="Short description">
                 <textarea id="outputHTML" placeholder="Body (processed HTML)"></textarea>
+                <button id="copyOutputBtn">Copy Body</button>
             </div>
         </div>
         <br>
