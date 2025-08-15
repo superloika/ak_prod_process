@@ -260,7 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <br>
 
     <div class="card">
-        <h3>Extract Images from .thumbnailsCarousel</h3>
+        <h3>Get page source</h3>
         <form method="get">
             <input type="text" name="url" placeholder="Enter webpage link" size="50" value="<?= isset($_GET['url']) ? htmlspecialchars($_GET['url']) : '' ?>" required>
             <button type="submit">Get Data</button>
@@ -292,6 +292,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         ?>
     </div>
+    <br>
 
     <!-- Bulk Image Watermark -->
     <div class="card">
