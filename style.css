@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: #f9fafb;
+    padding: 0.5rem;
+}
+
 textarea {
     width: 100%;
     height: 60px;
@@ -32,10 +37,6 @@ th {
     color: red;
 }
 
-body {
-    background-color: #f9fafb;
-}
-
 .container {
     display: block;
 }
@@ -50,9 +51,8 @@ label {
 textarea,
 input {
     width: 100%;
-    padding: 0.6rem;
+    padding: 0.3rem;
     border: 1px solid #d1d5db;
-    font-size: 0.85rem;
     outline: none;
     transition: border-color 0.2s;
     background-color: #f9fafb;
@@ -69,12 +69,7 @@ input:focus {
 }
 
 button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     padding: 0.2rem 0.5rem;
-    font-size: 0.85rem;
-    font-weight: 500;
     background-color: #3b82f6;
     color: white;
     border: none;
@@ -87,7 +82,7 @@ button:hover {
 }
 
 .card {
-    background: white;
+    background-color: #fff;
     padding: 0.75rem;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
     width: 100%;

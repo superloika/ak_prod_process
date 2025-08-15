@@ -8,20 +8,21 @@
 </head>
 
 <body>
-    <a href="/ak_prod_process">Home</a>
-    <br>
+    <p id="statusMessage" style="color: green; font-size: 14px;"></p>
+
     <!-- get page source -->
     <div class="card">
         <h3>Get page source</h3>
         <div class="section">
             <form id="fetchPageSourceForm">
-                <input type="text" id="url" placeholder="Enter webpage link" required>
+                <input type="text" id="url" placeholder="Enter webpage link" required autofocus>
                 <button type="submit">Get Data</button>
             </form>
         </div>
         <br>
-        <textarea id="sourceCode" placeholder="Page source" rows="15" readonly></textarea>
         <textarea id="imageLinks" placeholder="Product img links" rows="10"></textarea>
+        <textarea id="sourceCode" placeholder="Page source" rows="15" readonly></textarea>
+        <button id="btnCopyPageSource">Copy Page Source</button>
     </div>
     <br>
 
@@ -30,7 +31,7 @@
         <h3>Bulk Image Watermark</h3>
 
         <form id="watermarkForm">
-            <textarea name="image_urls" placeholder="https://example.com/image1.jpg"></textarea>
+            <textarea name="image_urls" placeholder="Product img links"></textarea>
             <button type="submit">Process Images</button>
         </form>
 
@@ -41,7 +42,6 @@
     <!-- parser -->
     <div class="card">
         <h3>HTML Parser</h3>
-        <p id="statusMessage" style="color: green; font-size: 14px;"></p>
         <div class="container">
             <div class="card">
                 <button id="pasteClipboardBtn">Paste from Clipboard</button>
@@ -50,9 +50,11 @@
             </div>
             <br>
             <div class="card">
-                <input type="text" id="productSKU" placeholder="SKU">
-                <input type="text" id="productTitle" placeholder="Title">
+                <input type="text" id="productSKU" placeholder="SKU" readonly>
+                <input type="text" id="productTitle" placeholder="Title" readonly>
+                <button id="btn_productTitle">Copy Title</button>
                 <input type="text" id="productShortDesc" placeholder="Short description">
+                <button id="btn_productShortDesc">Copy Short Description</button>
                 <textarea id="outputHTML" placeholder="Body (processed HTML)"></textarea>
                 <button id="copyOutputBtn">Copy Body</button>
             </div>
@@ -79,31 +81,37 @@
         const copyOutputBtn = document.getElementById('copyOutputBtn');
 
         // Temporary template
-        const htmlTemplate = `<div id="prod_desc" class="kcard">
-    <div class="kcard-b">PROD_DESC</div>
-    <div></div>
-    </div>
-    <div style="height: 20px;"></div>
-    <div id="prod_specs" class="kcard">
-    <div class="kcard-h">Product Specifications</div>
-    <div class="kcard-b">
-    SPECS_TABLE
-    </div>
-    </div>
-    <div class="" style="height: 20px;"></div>
-    <div id="prod_fitments" class="kcard">
-    <div class="kcard-h">Fitments</div>
-    <div class="kcard-b">
-    <div id="Models" class="mb-5">
-    FITMENTS_TABLE
-    </div>
-    </div>
-    </div>
-    <div class="" style="height: 20px;"></div>
-    <div id="prod_acc" class="kcard">
-    <div class="kcard-h">Accessories</div>
-    <div class="kcard-b">[products name="accessories" skus="123"]</div>
-    </div>`;
+const htmlTemplate = 
+`<div id="prod_desc" class="kcard">
+<div class="kcard-b">
+PROD_DESC
+</div>
+<div></div>
+</div>
+<div style="height: 20px;"></div>
+
+<div id="prod_specs" class="kcard">
+<div class="kcard-h">Product Specifications</div>
+<div class="kcard-b">
+SPECS_TABLE
+</div>
+</div>
+<div class="" style="height: 20px;"></div>
+
+<div id="prod_fitments" class="kcard">
+<div class="kcard-h">Fitments</div>
+<div class="kcard-b">
+<div id="Models" class="mb-5">
+FITMENTS_TABLE
+</div>
+</div>
+</div>
+<div class="" style="height: 20px;"></div>
+
+<div id="prod_acc" class="kcard">
+<div class="kcard-h">Accessories</div>
+<div class="kcard-b">[products name="accessories" skus="123"]</div>
+</div>`;
 
         const statusMessage = document.getElementById("statusMessage");
 
@@ -115,6 +123,25 @@
                 statusMessage.style.opacity = 0;
                 statusMessage.textContent = "";
             }, 2000);
+        }
+
+        function copyInputValueById(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) {
+                console.error(`Element with ID "${elementId}" not found.`);
+                return;
+            }
+
+            const value = el.value ?? '';
+            
+            navigator.clipboard.writeText(value)
+                .then(() => {
+                    showMessage(`Copied value from #${elementId} to clipboard.`);
+                    console.log(`Copied value from #${elementId} to clipboard.`);
+                })
+                .catch(err => {
+                    console.error('Failed to copy:', err);
+                });
         }
 
         processBtn.addEventListener('click', () => {
@@ -247,6 +274,22 @@
             } catch (err) {
                 resultsDiv.innerHTML = `<p style="color:red;">❌ Error: ${err.message}</p>`;
             }
+        });
+
+        // 
+        const btnCopyPageSource = document.getElementById('btnCopyPageSource');
+        btnCopyPageSource.addEventListener('click', () => {
+            copyInputValueById('sourceCode');
+        });
+
+        const btn_productTitle = document.getElementById('btn_productTitle');
+        btn_productTitle.addEventListener('click', () => {
+            copyInputValueById('productTitle');
+        });
+
+        const btn_productShortDesc = document.getElementById('btn_productShortDesc');
+        btn_productShortDesc.addEventListener('click', () => {
+            copyInputValueById('productShortDesc');
         });
     </script>
 </body>
