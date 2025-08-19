@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Resize watermark
         $mainWidth = imagesx($mainImage);
         $mainHeight = imagesy($mainImage);
-        $newWmWidth = $mainWidth * 0.4;
+        $newWmWidth = $mainWidth * 0.5;
         $newWmHeight = ($newWmWidth / $wmWidth) * $wmHeight;
 
         $resizedWatermark = imagecreatetruecolor($newWmWidth, $newWmHeight);
