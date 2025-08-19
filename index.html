@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>ak_prod_process - Tabbed</title>
+    <title>ak_prod_process</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -37,10 +37,10 @@
                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Get Data</button>
                 </form>
             </div>
-            <textarea id="imageLinks" placeholder="Product img links" rows="8"
+            <textarea id="imageLinks" placeholder="Product img links" rows="5"
                 class="w-full border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200 mb-3"></textarea>
-            <textarea id="sourceCode" placeholder="Page source" rows="4" readonly
-                class="w-full border border-gray-300 rounded p-2 bg-gray-100 focus:outline-none mb-3"></textarea>
+            <textarea id="sourceCode" placeholder="Page source" rows="5"
+                class="w-full border border-gray-300 rounded p-2 focus:outline-none mb-3"></textarea>
             <button id="btnCopyPageSource"
                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Page Source</button>
         </div>
@@ -50,10 +50,12 @@
             <h3 class="text-lg font-semibold mb-3">Bulk Image Watermark</h3>
 
             <form id="watermarkForm" class="flex flex-col gap-2">
-                <textarea name="image_urls" placeholder="Product img links" rows="8"
+                <textarea name="image_urls" placeholder="Product img links" rows="5"
                     class="w-full border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
-                <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Process Images</button>
+                <div>
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Process Images</button>
+                </div>
             </form>
 
             <div id="resultsContainer" class="mt-5"></div>
@@ -64,29 +66,45 @@
             <h3 class="text-lg font-semibold mb-3">HTML Parser</h3>
             <div class="space-y-4">
                 <div class="bg-gray-50 p-4 rounded shadow-sm space-y-2">
-                    <button id="pasteClipboardBtn"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Paste from Clipboard</button>
-                    <textarea id="sourceHTML" placeholder="Paste your HTML here (Page source)"
-                        class="w-full border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
-                    <button id="processBtn"
-                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition">Parse</button>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <textarea id="sourceHTML" placeholder="Paste your HTML here (Page source)"
+                        class="flex-1 border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                        <div class="flex flex-col gap-2">
+                            <button id="pasteClipboardBtn"
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Paste from Clipboard</button>
+                            <button id="processBtn"
+                                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition">Parse</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-gray-50 p-4 rounded shadow-sm space-y-2">
-                    <input type="text" id="productSKU" placeholder="SKU" readonly
-                        class="w-full border border-gray-300 rounded p-2 bg-gray-100 focus:outline-none">
-                    <input type="text" id="productTitle" placeholder="Title" readonly
-                        class="w-full border border-gray-300 rounded p-2 bg-gray-100 focus:outline-none">
-                    <button id="btn_productTitle"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Title</button>
-                    <textarea id="productShortDesc" placeholder="Short description" rows="3"
-                        class="w-full border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
-                    <button id="btn_productShortDesc"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Short Description</button>
-                    <textarea id="outputHTML" placeholder="Body (processed HTML)" rows="10"
-                        class="w-full border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
-                    <button id="copyOutputBtn"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Body</button>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="productSKU" placeholder="SKU" 
+                            class="border border-gray-300 rounded p-2 focus:outline-none">
+                        <input type="text" id="productTitle" placeholder="Title" 
+                            class="flex-1 border border-gray-300 rounded p-2 focus:outline-none">
+                        <div>
+                            <button id="btn_productTitle"
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Title</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <textarea id="productShortDesc" placeholder="Short description"
+                            class="flex-1 border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                        <div>
+                            <button id="btn_productShortDesc"
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Short Description</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <textarea id="outputHTML" placeholder="Body (processed HTML)" rows="10"
+                            class="flex-1 border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                        <div>
+                            <button id="copyOutputBtn"
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Body</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -125,9 +143,7 @@
 <div class="kcard-b">
 PROD_DESC
 </div>
-<div></div>
 </div>
-<div style="height: 20px;"></div>
 
 <div id="prod_specs" class="kcard">
 <div class="kcard-h">Product Specifications</div>
@@ -135,7 +151,6 @@ PROD_DESC
 SPECS_TABLE
 </div>
 </div>
-<div class="" style="height: 20px;"></div>
 
 <div id="prod_fitments" class="kcard">
 <div class="kcard-h">Fitments</div>
@@ -145,7 +160,15 @@ FITMENTS_TABLE
 </div>
 </div>
 </div>
-<div class="" style="height: 20px;"></div>
+
+<div id="prod_xdetails" class="kcard hidden">
+<div class="kcard-h">Extra Details</div>
+<div class="kcard-b">
+<div id="Models" class="mb-5">
+EXTRA_DETAILS
+</div>
+</div>
+</div>
 
 <div id="prod_acc" class="kcard">
 <div class="kcard-h">Accessories</div>
