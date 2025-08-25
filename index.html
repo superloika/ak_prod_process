@@ -13,11 +13,11 @@
         <div class="max-w-7xl mx-auto">
             <div class="flex border-b border-gray-300 bg-white">
                 <button data-tab="tab1"
-                    class="tab-btn px-4 py-3 text-blue-600 border-b-2 border-blue-600 font-semibold">Get page source</button>
+                    class="tab-btn px-4 py-3 text-indigo-600 border-b-2 border-indigo-600 font-semibold">Get page source</button>
                 <button data-tab="tab2"
-                    class="tab-btn px-4 py-3 text-gray-600 hover:text-blue-600">Bulk Image Watermark</button>
+                    class="tab-btn px-4 py-3 text-gray-600 hover:text-indigo-600">Bulk Image Watermark</button>
                 <button data-tab="tab3"
-                    class="tab-btn px-4 py-3 text-gray-600 hover:text-blue-600">HTML Parser</button>
+                    class="tab-btn px-4 py-3 text-gray-600 hover:text-indigo-600">HTML Parser</button>
                 <div id="statusMessage" class="tab-btn px-4 py-3 text-green-600 text-sm"></div>
             </div>
         </div>
@@ -29,19 +29,21 @@
         <div id="tab1" class="tab-content bg-white shadow rounded-lg p-4">
             <h3 class="text-lg font-semibold mb-3">Get page source</h3>
             <div class="mb-3">
-                <form id="fetchPageSourceForm" class="flex flex-col gap-2 sm:flex-row">
+                <form id="fetchPageSourceForm" class="flex flex-col gap-2 sm:flex-row items-center">
                     <input type="text" id="url" placeholder="Enter webpage link" required autofocus
-                        class="flex-1 rounded border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition p-2">
+                        class="flex-1 rounded border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 transition p-2">
+                    <span id="resultsContainerPageSrc"></span>
                     <button type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Get Data</button>
+                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition">Get Data</button>
                 </form>
             </div>
+
             <textarea id="imageLinks" placeholder="Product img links" rows="5"
-                class="w-full border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200 mb-3"></textarea>
+                class="w-full border border-gray-300 rounded p-2 focus:border-indigo-500 focus:ring focus:ring-indigo-200 mb-3"></textarea>
             <textarea id="sourceCode" placeholder="Page source" rows="5"
                 class="w-full border border-gray-300 rounded p-2 mb-3"></textarea>
             <button id="btnCopyPageSource"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Page Source</button>
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Copy Page Source</button>
         </div>
 
         <!-- Tab 2 -->
@@ -50,14 +52,14 @@
 
             <form id="watermarkForm" class="flex flex-col gap-2">
                 <textarea name="image_urls" placeholder="Product img links" rows="5"
-                    class="w-full border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                    class="w-full border border-gray-300 rounded p-2 focus:border-indigo-500 focus:ring focus:ring-indigo-200"></textarea>
                 <div>
                     <button type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Process Images</button>
+                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition">Process Images</button>
                 </div>
             </form>
 
-            <div id="resultsContainer" class="mt-5"></div>
+            <div id="resultsContainer" class="mt-2"></div>
         </div>
 
         <!-- Tab 3 -->
@@ -67,12 +69,12 @@
                 <div class="bg-gray-50 p-4 rounded shadow-sm space-y-2">
                     <div class="flex flex-col gap-2">
                         <textarea id="sourceHTML" placeholder="Paste your HTML here (Page source)"
-                            class="flex-1 border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                            class="flex-1 border border-gray-300 rounded p-2 focus:border-indigo-500 focus:ring focus:ring-indigo-200"></textarea>
                         <div class="flex flex-col sm:flex-row gap-2">
                             <button id="pasteClipboardBtn"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Paste from Clipboard</button>
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Paste from Clipboard</button>
                             <button id="processBtn"
-                                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition">Parse</button>
+                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition">Parse</button>
                         </div>
                     </div>
                 </div>
@@ -86,25 +88,25 @@
                     </div>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <textarea id="outputHTML" placeholder="Body (processed HTML)" rows="10"
-                            class="flex-1 border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                            class="flex-1 border border-gray-300 rounded p-2 focus:border-indigo-500 focus:ring focus:ring-indigo-200"></textarea>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <textarea id="productShortDesc" placeholder="Short description"
-                            class="flex-1 border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                            class="flex-1 border border-gray-300 rounded p-2 focus:border-indigo-500 focus:ring focus:ring-indigo-200"></textarea>
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-2">
                         <div>
                             <button id="btn_productTitle"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Title</button>
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Copy Title</button>
                         </div>
                         <div>
                             <button id="copyOutputBtn"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Body</button>
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Copy Body</button>
                         </div>
                         <div>
                             <button id="btn_productShortDesc"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Short Description</button>
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Copy Short Description</button>
                         </div>
                     </div>
                 </div>
@@ -122,11 +124,11 @@
         document.querySelectorAll(".tab-btn").forEach(btn => {
             btn.addEventListener("click", () => {
                 document.querySelectorAll(".tab-btn").forEach(b => {
-                    b.classList.remove("text-blue-600", "border-blue-600", "font-semibold");
+                    b.classList.remove("text-indigo-600", "border-indigo-600", "font-semibold");
                     b.classList.add("text-gray-600", "border-b-2", "border-transparent");
                 });
                 btn.classList.remove("text-gray-600");
-                btn.classList.add("text-blue-600", "border-blue-600", "font-semibold");
+                btn.classList.add("text-indigo-600", "border-indigo-600", "font-semibold");
 
                 document.querySelectorAll(".tab-content").forEach(tab => tab.classList.add("hidden"));
                 document.getElementById(btn.dataset.tab).classList.remove("hidden");
@@ -179,12 +181,12 @@ EXTRA_DETAILS
         const statusMessage = document.getElementById("statusMessage");
 
         function showMessage(msg) {
-            statusMessage.textContent = msg;
+            statusMessage.textContent = `✅ ${msg}`;
             statusMessage.style.opacity = 1;
             setTimeout(() => {
                 statusMessage.style.opacity = 0;
                 statusMessage.textContent = "";
-            }, 2000);
+            }, 3000);
         }
 
         function copyInputValueById(elementId) {
@@ -253,6 +255,8 @@ EXTRA_DETAILS
                 alert("Please enter a valid URL.");
                 return;
             }
+
+            document.getElementById('resultsContainerPageSrc').innerHTML = "⏳ Processing...";
             fetch("get_page_source.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -268,6 +272,8 @@ EXTRA_DETAILS
                 .catch(err => {
                     console.error(err);
                     alert("Error fetching data.");
+                }).finally(() => {
+                    document.getElementById('resultsContainerPageSrc').innerHTML = "";
                 });
         });
 
@@ -289,8 +295,8 @@ EXTRA_DETAILS
                     html += `<tr>
                         <td class="p-2 border">${res.url}</td>
                         <td class="p-2 border">${res.status}</td>
-                        <td class="p-2 border">${res.original ? `<a href="output/${encodeURIComponent(res.original)}" target="_blank" class="text-blue-600 underline">View</a>` : ''}</td>
-                        <td class="p-2 border">${res.watermarked ? `<a href="output/${encodeURIComponent(res.watermarked)}" target="_blank" class="text-blue-600 underline">View</a>` : ''}</td>
+                        <td class="p-2 border">${res.original ? `<a href="output/${encodeURIComponent(res.original)}" target="_blank" class="text-indigo-600 underline">View</a>` : ''}</td>
+                        <td class="p-2 border">${res.watermarked ? `<a href="output/${encodeURIComponent(res.watermarked)}" target="_blank" class="text-indigo-600 underline">View</a>` : ''}</td>
                     </tr>`;
                 });
                 html += '</table>';
