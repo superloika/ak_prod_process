@@ -11,7 +11,6 @@
     <!-- Sticky Header -->
     <header class="sticky top-0 z-50 ">
         <div class="max-w-7xl mx-auto">
-            
             <div class="flex border-b border-gray-300 bg-white">
                 <button data-tab="tab1"
                     class="tab-btn px-4 py-3 text-blue-600 border-b-2 border-blue-600 font-semibold">Get page source</button>
@@ -40,7 +39,7 @@
             <textarea id="imageLinks" placeholder="Product img links" rows="5"
                 class="w-full border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200 mb-3"></textarea>
             <textarea id="sourceCode" placeholder="Page source" rows="5"
-                class="w-full border border-gray-300 rounded p-2 focus:outline-none mb-3"></textarea>
+                class="w-full border border-gray-300 rounded p-2 mb-3"></textarea>
             <button id="btnCopyPageSource"
                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Page Source</button>
         </div>
@@ -66,10 +65,10 @@
             <h3 class="text-lg font-semibold mb-3">HTML Parser</h3>
             <div class="space-y-4">
                 <div class="bg-gray-50 p-4 rounded shadow-sm space-y-2">
-                    <div class="flex flex-col sm:flex-row gap-2">
+                    <div class="flex flex-col gap-2">
                         <textarea id="sourceHTML" placeholder="Paste your HTML here (Page source)"
-                        class="flex-1 border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
-                        <div class="flex flex-col gap-2">
+                            class="flex-1 border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                        <div class="flex flex-col sm:flex-row gap-2">
                             <button id="pasteClipboardBtn"
                                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Paste from Clipboard</button>
                             <button id="processBtn"
@@ -81,28 +80,31 @@
                 <div class="bg-gray-50 p-4 rounded shadow-sm space-y-2">
                     <div class="flex flex-col sm:flex-row gap-2">
                         <input type="text" id="productSKU" placeholder="SKU" 
-                            class="border border-gray-300 rounded p-2 focus:outline-none">
+                            class="border border-gray-300 rounded p-2">
                         <input type="text" id="productTitle" placeholder="Title" 
-                            class="flex-1 border border-gray-300 rounded p-2 focus:outline-none">
-                        <div>
-                            <button id="btn_productTitle"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Title</button>
-                        </div>
-                    </div>
-                    <div class="flex flex-col sm:flex-row gap-2">
-                        <textarea id="productShortDesc" placeholder="Short description"
-                            class="flex-1 border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
-                        <div>
-                            <button id="btn_productShortDesc"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Short Description</button>
-                        </div>
+                            class="flex-1 border border-gray-300 rounded p-2">
                     </div>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <textarea id="outputHTML" placeholder="Body (processed HTML)" rows="10"
                             class="flex-1 border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <textarea id="productShortDesc" placeholder="Short description"
+                            class="flex-1 border border-gray-300 rounded p-2 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <div>
+                            <button id="btn_productTitle"
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Title</button>
+                        </div>
                         <div>
                             <button id="copyOutputBtn"
                                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Body</button>
+                        </div>
+                        <div>
+                            <button id="btn_productShortDesc"
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Copy Short Description</button>
                         </div>
                     </div>
                 </div>
