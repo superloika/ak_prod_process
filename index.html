@@ -201,7 +201,7 @@ EXTRA_DETAILS
                 .catch(err => console.error('Failed to copy:', err));
         }
 
-        processBtn.addEventListener('click', () => {
+        function parsePageSrc() {
             const parser = new DOMParser();
             const doc = parser.parseFromString(sourceHTML.value, 'text/html');
             const skuMatch = sourceHTML.value.match(/\bMK\d{5}\b/);
@@ -210,29 +210,33 @@ EXTRA_DETAILS
             const alertDiv = doc.querySelector('.alert');
             const prodDesc = alertDiv ? alertDiv.innerHTML.trim() : '';
             const prodShortDesc = `${prodDesc} | Product Number: ${prodSku}`;
-
+    
             let specsHTML = '';
             const specsContainer = doc.querySelector('.inside-product-specs2');
             if (specsContainer) {
                 const table = specsContainer.querySelector('.specsTable');
                 if (table) specsHTML = table.outerHTML.trim();
             }
-
+    
             const fitmentsTable = doc.querySelector('.fitmentsTable');
             const fitmentsHTML = fitmentsTable ? fitmentsTable.outerHTML.trim() : '';
-
+    
             let filledTemplate = htmlTemplate
                 .replace('PROD_DESC', `<strong>${prodDesc} | Product Number: ${prodSku}</strong>`)
                 .replace('SPECS_TABLE', specsHTML)
                 .replace('FITMENTS_TABLE', fitmentsHTML);
-
+    
             document.getElementById("productSKU").value = prodSku;
             document.getElementById("productShortDesc").value = prodShortDesc;
             document.getElementById("productTitle").value = prodTitle;
             outputHTML.value = filledTemplate;
             templatePreview.innerHTML = filledTemplate;
-
+    
             showMessage("Done parsing the HTML!");
+        }
+
+        processBtn.addEventListener('click', () => {
+            parsePageSrc();
         });
 
         pasteClipboardBtn.addEventListener('click', async () => {
@@ -271,6 +275,9 @@ EXTRA_DETAILS
                     document.getElementById("imageLinks").value = (data.images && data.images.length)
                         ? data.images.join("\n")
                         : "No images found.";
+
+                    sourceHTML.value = data.source || "Failed to fetch source.";
+                    parsePageSrc();
                 })
                 .catch(err => {
                     console.error(err);
