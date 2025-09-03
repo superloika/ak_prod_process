@@ -7,17 +7,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-50 p-4 text-gray-800">
+<body class="bg-gray-900 p-4 text-gray-400">
     <!-- Sticky Header -->
-    <header class="sticky top-0 z-50 pb-4">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex border-b border-gray-300 bg-white rounded-lg">
+    <header class="sticky top-0 z-50 pb-4 bg-gray-900">
+        <div class="max-w-7xl mx-auto bg-gray-900">
+            <div class="flex bg-gray-900 rounded-lg">
                 <button data-tab="tab1"
-                    class="tab-btn px-4 py-3 text-indigo-600 border-b-2 border-indigo-600 font-semibold">Get Page Source</button>
+                    class="tab-btn px-4 py-3 border-indigo-600 font-semibold text-indigo-600 hover:text-indigo-600">Get Page Source</button>
                 <button data-tab="tab2"
-                    class="tab-btn px-4 py-3 text-gray-600 hover:text-indigo-600">Bulk Image Watermark</button>
+                    class="tab-btn px-4 py-3 text-gray-400 hover:text-indigo-600">Bulk Image Watermark</button>
                 <button data-tab="tab3"
-                    class="tab-btn px-4 py-3 text-gray-600 hover:text-indigo-600">Parse Page Source</button>
+                    class="tab-btn px-4 py-3 text-gray-400 hover:text-indigo-600">Parse Page Source</button>
                 <div id="statusMessage" class="tab-btn px-4 py-3 text-green-600 text-sm"></div>
             </div>
         </div>
@@ -26,38 +26,38 @@
     <!-- Tabs -->
     <div class="max-w-7xl mx-auto">
         <!-- Tab 1 -->
-        <div id="tab1" class="tab-content bg-white shadow rounded-lg p-4">
+        <div id="tab1" class="tab-content bg-gray-800 shadow rounded-lg p-4">
             <h3 class="text-lg font-semibold mb-3">Get Page Source</h3>
-            <div class="bg-gray-50 p-4 rounded shadow-sm space-y-2">
+            <div class="bg-gray-700 p-4 rounded shadow-sm space-y-2">
                 <div class="mb-4">
                     <form id="fetchPageSourceForm" class="flex flex-col gap-2 sm:flex-row items-center">
                         <input type="text" id="url" placeholder="Enter webpage link" required autofocus
-                            class="flex-1 rounded border border-gray-300 focus:ring-2 focus:ring-indigo-500 transition p-2 outline-none">
+                            class="flex-1 rounded focus:ring-2 focus:ring-indigo-500 transition p-2 outline-none bg-gray-800">
                         <span id="resultsContainerPageSrc"></span>
                         <button type="submit"
-                            class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Get Data</button>
+                            class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Get Data</button>
                     </form>
                 </div>
     
                 <textarea id="imageLinks" placeholder="Product img links" rows="5"
-                    class="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-indigo-500 mb-3 outline-none"></textarea>
+                    class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 mb-3 outline-none bg-gray-800"></textarea>
                 <textarea id="sourceCode" placeholder="Page source" rows="5"
-                    class="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-indigo-500 mb-3 outline-none"></textarea>
+                    class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 mb-3 outline-none bg-gray-800"></textarea>
                 <button id="btnCopyPageSource"
-                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Copy Page Source</button>
+                    class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Copy Page Source</button>
             </div>
         </div>
 
         <!-- Tab 2 -->
-        <div id="tab2" class="tab-content bg-white shadow rounded-lg p-4 hidden">
+        <div id="tab2" class="tab-content bg-gray-800 shadow rounded-lg p-4 hidden">
             <h3 class="text-lg font-semibold mb-3">Bulk Image Watermark</h3>
-            <div class="bg-gray-50 p-4 rounded shadow-sm space-y-2">
+            <div class="bg-gray-700 p-4 rounded shadow-sm space-y-2">
                 <form id="watermarkForm" class="flex flex-col gap-4">
                     <textarea name="image_urls" placeholder="Product img links" rows="5"
-                        class="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                        class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none bg-gray-800"></textarea>
                     <div>
                         <button type="submit"
-                            class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Process Images</button>
+                            class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Process Images</button>
                     </div>
                 </form>
                 <div id="resultsContainer" class="mt-2"></div>
@@ -66,50 +66,50 @@
         </div>
 
         <!-- Tab 3 -->
-        <div id="tab3" class="tab-content bg-white shadow rounded-lg p-4 hidden">
+        <div id="tab3" class="tab-content bg-gray-800 shadow rounded-lg p-4 hidden">
             <h3 class="text-lg font-semibold mb-3">Parse Page Source</h3>
             <div class="space-y-4">
-                <div class="bg-gray-50 p-4 rounded shadow-sm space-y-2">
+                <div class="bg-gray-700 p-4 rounded shadow-sm space-y-2">
                     <div class="flex flex-col gap-4">
                         <textarea id="sourceHTML" placeholder="Paste your HTML here (Page source)"
-                            class="flex-1 border border-gray-300 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                            class="flex-1 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none bg-gray-800"></textarea>
                         <div class="flex flex-col sm:flex-row gap-2">
                             <button id="pasteClipboardBtn"
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Paste from Clipboard</button>
+                                class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Paste from Clipboard</button>
                             <button id="processBtn"
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Parse</button>
+                                class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Parse</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 p-4 rounded shadow-sm space-y-4">
+                <div class="bg-gray-700 p-4 rounded shadow-sm space-y-4">
                     <div class="flex flex-col sm:flex-row gap-2">
                         <input type="text" id="productSKU" placeholder="SKU" 
-                            class="border border-gray-300 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            class="bg-gray-800 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none">
                         <input type="text" id="productTitle" placeholder="Title" 
-                            class="flex-1 border border-gray-300 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            class="flex-1 bg-gray-800 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none">
                     </div>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <textarea id="outputHTML" placeholder="Body (processed HTML)" rows="10"
-                            class="flex-1 border border-gray-300 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                            class="flex-1 bg-gray-800 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <textarea id="productShortDesc" placeholder="Short description"
-                            class="flex-1 border border-gray-300 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                            class="flex-1 bg-gray-800 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-2">
                         <div>
                             <button id="btn_productTitle"
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Copy Title</button>
+                                class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Copy Title</button>
                         </div>
                         <div>
                             <button id="copyOutputBtn"
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Copy Body</button>
+                                class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Copy Body</button>
                         </div>
                         <div>
                             <button id="btn_productShortDesc"
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition">Copy Short Description</button>
+                                class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Copy Short Description</button>
                         </div>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
 
             <div class="mt-6">
                 <h3 class="text-lg font-semibold mb-2">Preview:</h3>
-                <div id="templatePreview" class="border border-gray-300 rounded p-4 bg-white"></div>
+                <div id="templatePreview" class="border border-gray-700 rounded p-4 bg-gray-800"></div>
             </div>
         </div>
     </div>
@@ -128,9 +128,9 @@
             btn.addEventListener("click", () => {
                 document.querySelectorAll(".tab-btn").forEach(b => {
                     b.classList.remove("text-indigo-600", "border-indigo-600", "font-semibold");
-                    b.classList.add("text-gray-600", "border-b-2", "border-transparent");
+                    b.classList.add("text-gray-400", "border-b-2", "border-transparent");
                 });
-                btn.classList.remove("text-gray-600");
+                btn.classList.remove("text-gray-400");
                 btn.classList.add("text-indigo-600", "border-indigo-600", "font-semibold");
 
                 document.querySelectorAll(".tab-content").forEach(tab => tab.classList.add("hidden"));
