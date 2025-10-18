@@ -209,7 +209,7 @@ EXTRA_DETAILS
             const prodTitle = doc.querySelector("article.info-wrap2 h1")?.innerHTML || "";
             const alertDiv = doc.querySelector('.alert');
             const prodDesc = alertDiv ? alertDiv.innerHTML.trim() : '';
-            const prodShortDesc = `${prodDesc} | Product Number: ${prodSku}`;
+            const prodShortDesc = `${prodDesc} / Product Number: ${prodSku}`;
     
             let specsHTML = '';
             const specsContainer = doc.querySelector('.inside-product-specs2');
@@ -222,7 +222,7 @@ EXTRA_DETAILS
             const fitmentsHTML = fitmentsTable ? fitmentsTable.outerHTML.trim() : '';
     
             let filledTemplate = htmlTemplate
-                .replace('PROD_DESC', `<strong>${prodDesc} | Product Number: ${prodSku}</strong>`)
+                .replace('PROD_DESC', `<strong>${prodDesc} / Product Number: ${prodSku}</strong>`)
                 .replace('SPECS_TABLE', specsHTML)
                 .replace('FITMENTS_TABLE', fitmentsHTML);
     
