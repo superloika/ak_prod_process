@@ -269,14 +269,59 @@ EXTRA_DETAILS
                 counter++;
             }
 
+                    //     const resultsDiv = document.getElementById('resultsContainer');
+        //     resultsDiv.innerHTML = "⏳ Processing...";
+        //     try {
+        //         const response = await fetch('process_imgs.php', { method: 'POST', body: formData });
+        //         const data = await response.json();
+        //         if (data.error) {
+        //             resultsDiv.innerHTML = `<p class="text-red-600">${data.error}</p>`;
+        //             return;
+        //         }
+        //         let html = `<table class="border border-gray-300 mt-4 w-full">
+        //             <tr class="bg-gray-100"><th class="p-2 border">Image URL</th><th class="p-2 border">Status</th><th class="p-2 border">Original</th><th class="p-2 border">Watermarked</th></tr>`;
+        //         data.results.forEach(res => {
+        //             html += `<tr>
+        //                 <td class="p-2 border">${res.url}</td>
+        //                 <td class="p-2 border">${res.status}</td>
+        //                 <td class="p-2 border">${res.original ? `<a href="output/${encodeURIComponent(res.original)}" target="_blank" class="text-indigo-600 underline">View</a>` : ''}</td>
+        //                 <td class="p-2 border">${res.watermarked ? `<a href="output/${encodeURIComponent(res.watermarked)}" target="_blank" class="text-indigo-600 underline">View</a>` : ''}</td>
+        //             </tr>`;
+        //         });  
+        //         html += '</table>';
+        //         resultsDiv.innerHTML = html;
+        //     } catch (err) {
+        //         resultsDiv.innerHTML = `<p class="text-red-600">❌ Error: ${err.message}</p>`;
+        //     }
+
+
             // Send all images to PHP at once
+            const resultsDiv = document.getElementById('resultsContainer');
+            resultsDiv.innerHTML = "⏳ Processing...";
+
             fetch(phpEndpoint, {
                 method: 'POST',
                 body: formData
             })
-            .then(res => res.text())
-            .then(result => console.log("PHP Response:", result))
-            .catch(err => console.error("Error:", err));
+            .then(res => res.json())
+            .then((result) => {
+                let html = `<table class="border border-gray-300 mt-4 w-full">
+                    <tr class="bg-gray-100"><th class="p-2 border">Image URL</th><th class="p-2 border">Status</th><th class="p-2 border">Original</th><th class="p-2 border">Watermarked</th></tr>`;
+
+                result.results.forEach(res => {
+                    html += `<tr>
+                        <td class="p-2 border">${res.url}</td>
+                        <td class="p-2 border">${res.status}</td>
+                        <td class="p-2 border">${res.original ? `<img src="output/${encodeURIComponent(res.original)}" class="text-indigo-600 underline">View</img>` : ''}</td>
+                        <td class="p-2 border">${res.watermarked ? `<img src="output/${encodeURIComponent(res.watermarked)}" class="text-indigo-600 underline">View</img>` : ''}</td>
+                    </tr>`;
+                });  
+                html += '</table>';
+                resultsDiv.innerHTML = html;
+            })
+            .catch((err) => {
+                resultsDiv.innerHTML = `<p class="text-red-600">${data.error}</p>`;
+            });
         }
 
         function parsePageSrc() {
@@ -410,7 +455,6 @@ EXTRA_DETAILS
                 .split(/\r?\n/)
                 .map(l => l.trim())
                 .filter(l => l.length > 0);
-
             sendMultipleImagesToPhp(
                 links,
                 'process_imgs.php'
