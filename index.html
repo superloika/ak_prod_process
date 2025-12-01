@@ -52,14 +52,26 @@
         <div id="tab2" class="tab-content bg-gray-800 shadow rounded-lg p-4 hidden">
             <h3 class="text-lg font-semibold mb-3">Bulk Image Watermark</h3>
             <div class="bg-gray-700 p-4 rounded shadow-sm space-y-2">
+                <!-- <form id="watermarkForm" class="flex flex-col gap-4">
+                    <div>
+                        <button type="submit"
+                            class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Process Images</button>
+                    </div>
+                    <textarea name="image_urls" id="ta_img_urls" placeholder="Product img links" rows="5" required
+                        class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none bg-gray-800"></textarea>
+                </form> -->
+                
                 <form id="watermarkForm" class="flex flex-col gap-4">
                     <div>
                         <button type="submit"
                             class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Process Images</button>
                     </div>
-                    <textarea name="image_urls" placeholder="Product img links" rows="5" required
+                    <textarea name="image_urls" id="ta_img_urls" placeholder="Product img links" rows="5" required
                         class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none bg-gray-800"></textarea>
                 </form>
+
+                <button class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition" id="btn_dlimg">DL image</button>
+
                 <div id="resultsContainer" class="mt-2"></div>
             </div>
 
@@ -200,6 +212,72 @@ EXTRA_DETAILS
                 .then(() => showMessage(`Copied value from #${elementId} to clipboard.`))
                 .catch(err => console.error('Failed to copy:', err));
         }
+        
+        function downloadImage(url, filename = 'download.jpg') {
+            fetch(url, {
+                mode: 'cors'
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(blobUrl);
+            })
+            .catch(err => {
+                console.error('Image download error:', err);
+            });
+        }
+
+        function sendImageToPhp(url, phpEndpoint, filename = 'image.jpg') {
+            fetch(url)
+                .then(res => res.blob())
+                .then(blob => {
+                    const formData = new FormData();
+                    formData.append('image', blob, filename);
+
+                    return fetch(phpEndpoint, {
+                        method: 'POST',
+                        body: formData
+                    });
+                })
+                .then(response => response.text())
+                .then(result => {
+                    console.log('PHP Response:', result);
+                })
+                .catch(err => console.error(err));
+        }
+
+        async function sendMultipleImagesToPhp(imageUrls, phpEndpoint) {
+            const formData = new FormData();
+
+            let counter = 1;
+
+            for (const url of imageUrls) {
+                const response = await fetch(url);
+                const blob = await response.blob();
+
+                // Generate a filename
+                const extension = blob.type.split('/')[1] || 'jpg';
+                const filename = `image_${counter}.${extension}`;
+
+                formData.append('images[]', blob, filename);
+                counter++;
+            }
+
+            // Send all images to PHP at once
+            fetch(phpEndpoint, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.text())
+            .then(result => console.log("PHP Response:", result))
+            .catch(err => console.error("Error:", err));
+        }
 
         function parsePageSrc() {
             const parser = new DOMParser();
@@ -287,34 +365,34 @@ EXTRA_DETAILS
                 });
         });
 
-        document.getElementById('watermarkForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            const resultsDiv = document.getElementById('resultsContainer');
-            resultsDiv.innerHTML = "⏳ Processing...";
-            try {
-                const response = await fetch('process_imgs.php', { method: 'POST', body: formData });
-                const data = await response.json();
-                if (data.error) {
-                    resultsDiv.innerHTML = `<p class="text-red-600">${data.error}</p>`;
-                    return;
-                }
-                let html = `<table class="border border-gray-300 mt-4 w-full">
-                    <tr class="bg-gray-100"><th class="p-2 border">Image URL</th><th class="p-2 border">Status</th><th class="p-2 border">Original</th><th class="p-2 border">Watermarked</th></tr>`;
-                data.results.forEach(res => {
-                    html += `<tr>
-                        <td class="p-2 border">${res.url}</td>
-                        <td class="p-2 border">${res.status}</td>
-                        <td class="p-2 border">${res.original ? `<a href="output/${encodeURIComponent(res.original)}" target="_blank" class="text-indigo-600 underline">View</a>` : ''}</td>
-                        <td class="p-2 border">${res.watermarked ? `<a href="output/${encodeURIComponent(res.watermarked)}" target="_blank" class="text-indigo-600 underline">View</a>` : ''}</td>
-                    </tr>`;
-                });
-                html += '</table>';
-                resultsDiv.innerHTML = html;
-            } catch (err) {
-                resultsDiv.innerHTML = `<p class="text-red-600">❌ Error: ${err.message}</p>`;
-            }
-        });
+        // document.getElementById('watermarkForm').addEventListener('submit', async function (e) {
+        //     e.preventDefault();
+        //     const formData = new FormData(this);
+        //     const resultsDiv = document.getElementById('resultsContainer');
+        //     resultsDiv.innerHTML = "⏳ Processing...";
+        //     try {
+        //         const response = await fetch('process_imgs.php', { method: 'POST', body: formData });
+        //         const data = await response.json();
+        //         if (data.error) {
+        //             resultsDiv.innerHTML = `<p class="text-red-600">${data.error}</p>`;
+        //             return;
+        //         }
+        //         let html = `<table class="border border-gray-300 mt-4 w-full">
+        //             <tr class="bg-gray-100"><th class="p-2 border">Image URL</th><th class="p-2 border">Status</th><th class="p-2 border">Original</th><th class="p-2 border">Watermarked</th></tr>`;
+        //         data.results.forEach(res => {
+        //             html += `<tr>
+        //                 <td class="p-2 border">${res.url}</td>
+        //                 <td class="p-2 border">${res.status}</td>
+        //                 <td class="p-2 border">${res.original ? `<a href="output/${encodeURIComponent(res.original)}" target="_blank" class="text-indigo-600 underline">View</a>` : ''}</td>
+        //                 <td class="p-2 border">${res.watermarked ? `<a href="output/${encodeURIComponent(res.watermarked)}" target="_blank" class="text-indigo-600 underline">View</a>` : ''}</td>
+        //             </tr>`;
+        //         });
+        //         html += '</table>';
+        //         resultsDiv.innerHTML = html;
+        //     } catch (err) {
+        //         resultsDiv.innerHTML = `<p class="text-red-600">❌ Error: ${err.message}</p>`;
+        //     }
+        // });
 
         document.getElementById('btnCopyPageSource').addEventListener('click', () => {
             copyInputValueById('sourceCode');
@@ -324,6 +402,19 @@ EXTRA_DETAILS
         });
         document.getElementById('btn_productShortDesc').addEventListener('click', () => {
             copyInputValueById('productShortDesc');
+        });
+        document.getElementById("btn_dlimg").addEventListener("click", function (e) {
+            e.preventDefault();
+            const raw = document.getElementById('ta_img_urls').value;
+            const links = raw
+                .split(/\r?\n/)
+                .map(l => l.trim())
+                .filter(l => l.length > 0);
+
+            sendMultipleImagesToPhp(
+                links,
+                'process_imgs.php'
+            );
         });
     </script>
 </body>
