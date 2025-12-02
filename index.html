@@ -11,7 +11,7 @@
 <body class="p-4">
     <!-- Sticky Header -->
     <header class="sticky top-0 z-50">
-        <div class="maxx-w-7xl mx-auto ">
+        <div class="max-w-7xl mx-auto ">
             <div class="flex border bg-white">
                 <!-- <button data-tab="tab1"
                     class="tab-btn px-4 py-3 border-indigo-600 font-semibold text-indigo-600 hover:text-indigo-600">Get Page Source</button> -->
@@ -25,7 +25,7 @@
     </header>
 
     <!-- Tabs -->
-    <div class="maxx-w-7xl mx-auto">
+    <div class="max-w-7xl mx-auto">
         <!-- <div id="tab1" class="tab-content shadow rounded-lg p-4">
             <h3 class="text-lg font-semibold mb-3">Get Page Source</h3>
             <div class=" p-4 rounded shadow-sm space-y-2">
@@ -55,12 +55,13 @@
             <div class="space-y-4">
                 <div class="space-y-4">
                     <h3 class="text-lg font-semibold">Parse Page Source</h3>
+
                     <div class=" p-4 rounded space-y-2 border">
-                        <div class="flex flex-row gap-4">
-                            <textarea id="sourceHTML" placeholder="Paste the page source here" style="font-family: monospace;"
+                        <div class="flex flex-wrap gap-4">
+                            <textarea id="sourceHTML" placeholder="Paste the page source here"
                                 class="flex-1 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border bg-indigo-50"></textarea>
                             <div>
-                                <button id="processBtn" class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-1">Parse</button>
+                                <button id="processBtn" class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Parse HTML</button>
                             </div>
                         </div>
                     </div>
@@ -68,25 +69,21 @@
                     <div class=" p-4 rounded border space-y-4">
                         <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2">
                             <div class="grid-col col-span">
-                                <input type="text" id="productSKU" placeholder="SKU" style="font-family: monospace;"
+                                <input type="text" id="productSKU" placeholder="SKU"
                                     class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border bg-gray-50 w-full">
                             </div>
                             <div class="grid-col col-span-2">
-                                <input type="text" id="productTitle" placeholder="Title" style="font-family: monospace;"
+                                <input type="text" id="productTitle" placeholder="Title"
                                     class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border bg-gray-50 w-full">
                             </div>
-                            <div class="grid-col col-span-4">
-                                <textarea id="productShortDesc" placeholder="Short description" style="font-family: monospace;"
-                                    class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border bg-gray-50 w-full"></textarea>
-                            </div>
                         </div>
-                        <!-- <div class="flex flex-col sm:flex-row gap-2">
-                            <textarea id="productShortDesc" placeholder="Short description" style="font-family: monospace;"
-                                class="flex-1 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border bg-gray-50"></textarea>
-                        </div> -->
 
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <textarea id="productShortDesc" placeholder="Short description"
+                                class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border bg-gray-50 w-full"></textarea>
+                        </div>
 
-                        <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
+                        <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(400px,1fr))]">
                             <div class="flex flex-col gap-2">
                                 <!-- <span class="text-sm">Description</span> -->
                                 <textarea id="ta_description" placeholder="Description" rows="10" style="font-family: monospace;"
@@ -95,13 +92,13 @@
     
                             <div class="flex flex-col gap-2">
                                 <!-- <span class="text-sm">Specs</span> -->
-                                <textarea id="ta_specs" placeholder="Specs" rows="20" style="font-family: monospace;"
+                                <textarea id="ta_specs" placeholder="Specs" rows="10" style="font-family: monospace;"
                                     class="flex-1 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border bg-gray-50"></textarea>
                             </div>
     
                             <div class="flex flex-col gap-2">
                                 <!-- <span class="text-sm">Fitments</span> -->
-                                <textarea id="ta_fitments" placeholder="Fitments" rows="20" style="font-family: monospace;"
+                                <textarea id="ta_fitments" placeholder="Fitments" rows="10" style="font-family: monospace;"
                                     class="flex-1 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border bg-gray-50"></textarea>
                             </div>
     
@@ -127,43 +124,43 @@
                         
 
                         <div class="flex flex-col sm:flex-row gap-2">
-                            <div>
+                            <!-- <div>
                                 <button id="btn_preview_tp"
                                     class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-1">Preview Template</button>
-                            </div>
+                            </div> -->
                             <div>
                                 <button id="btn_productTitle"
-                                    class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-1">Copy Title</button>
+                                    class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Title</button>
                             </div>
                             <div>
                                 <button id="copyOutputBtn"
-                                    class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-1">Copy Body</button>
+                                    class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Body</button>
                             </div>
                             <div>
                                 <button id="btn_productShortDesc"
-                                    class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-1">Copy Short Description</button>
+                                    class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Short Description</button>
                             </div>
                         </div>
                     </div>
                 </div>
     
-                <div class="space-y-4">
+                <div class="space-y-4 hidden">
                     <h3 class="text-lg font-semibold">Preview</h3>
                     <div id="templatePreview" class="border rounded p-4 bg-gray-50"></div>
                 </div>
             </div>
         </div>
 
-        <div id="tab2" class="tab-conten hidden p-4">
+        <div id="tab2" class="tab-content hidden p-4">
             <div class="space-y-4">
                 <div class="space-y-4">
                     <h3 class="text-lg font-semibold mb-3">Bulk Image Watermark</h3>
                     <div class=" p-4 rounded border space-y-4">
                         <div class="flex flex-col gap-4">
-                            <textarea name="image_urls" id="ta_img_urls" placeholder="Product img links" rows="5" required style="font-family: monospace;"
+                            <textarea name="image_urls" id="ta_img_urls" placeholder="Product img links" rows="5" required
                                 class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border bg-gray-50"></textarea>
                         </div>
-                        <button class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-1" id="btn_dlimg">Submit</button>
+                        <button class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded" id="btn_dlimg">Submit</button>
                     </div>
                 </div>
     

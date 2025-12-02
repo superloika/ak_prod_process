@@ -201,16 +201,18 @@ function parsePageSrc() {
     //     if (table) specsHTML = table.outerHTML.trim();
     // }
     const table = doc.querySelector("#product-specification > div > div:nth-child(1) > div.product-specs-table.table-wrapper > table");
-    if (table) specsHTML = table.outerHTML.trim();
+    if (table) specsHTML = table.outerHTML.trim()
+        .replace('hidden-row', 'hidden')
+        .replace('data-table', 'specsTable');
 
     // const fitmentsTable = doc.querySelector('.fitmentsTable');
     const fitmentsTable = doc.querySelector("#product-specification > div > div:nth-child(2) > div.brand-model-table.table-wrapper > table");
-    const fitmentsHTML = fitmentsTable ? fitmentsTable.outerHTML.trim() : '';
+    const fitmentsHTML = fitmentsTable ? fitmentsTable.outerHTML.trim().replace('data-table', 'fitmentsTable') : '';
 
-    let filledTemplate = htmlTemplate
-        .replace('PROD_DESC', `<strong>${prodDesc} / Product Number: ${prodSku}</strong>`)
-        .replace('SPECS_TABLE', specsHTML)
-        .replace('FITMENTS_TABLE', fitmentsHTML);
+    // let filledTemplate = htmlTemplate
+    //     .replace('PROD_DESC', `<strong>${prodDesc} / Product Number: ${prodSku}</strong>`)
+    //     .replace('SPECS_TABLE', specsHTML)
+    //     .replace('FITMENTS_TABLE', fitmentsHTML);    
 
     document.getElementById("ta_description").value = tpDescription.replace('PROD_DESC', `<strong>${prodDesc} / Product Number: ${prodSku}</strong>`);
     document.getElementById("ta_specs").value = tpSpecs.replace('SPECS_TABLE', specsHTML);
@@ -221,7 +223,8 @@ function parsePageSrc() {
     document.getElementById("productSKU").value = prodSku;
     document.getElementById("productShortDesc").value = prodShortDesc;
     document.getElementById("productTitle").value = prodTitle;
-    outputHTML.value = filledTemplate;
+
+    // outputHTML.value = filledTemplate;
     // templatePreview.innerHTML = filledTemplate;
 
     showMessage("Done parsing the HTML!");
