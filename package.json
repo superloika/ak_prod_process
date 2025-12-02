@@ -1,0 +1,27 @@
+{
+  "name": "ak_prod_process",
+  "version": "1.0.0",
+  "description": "",
+  "main": "scrape.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/superloika/ak_prod_process.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/superloika/ak_prod_process/issues"
+  },
+  "homepage": "https://github.com/superloika/ak_prod_process#readme",
+  "dependencies": {
+    "puppeteer": "^24.31.0"
+  }
+}

@@ -19,24 +19,24 @@ function getPageSource($url) {
     return $source ?: false;
 }
 
-function getImagesFromThumbnailsCarousel($html) {
+function getProductImgLinks($html) {
     $dom = new DOMDocument();
     libxml_use_internal_errors(true);
     $dom->loadHTML($html);
     libxml_clear_errors();
 
     $xpath = new DOMXPath($dom);
-    $nodes = $xpath->query("//div[contains(@class,'thumbnailsCarousel')]//img");
+    
+    $nodes = $xpath->query("//div[contains(@class,'cloud-zoom-thumb-container')]//a");
+    
+    return $xpath;
 
     $images = [];
-    foreach ($nodes as $img) {
-        $src = $img->getAttribute('src');
-        if (!$src) { // handle lazy-loading
-            $src = $img->getAttribute('data-src');
-        }
-        if ($src) {
-            $src = 'https://www.mk3.com' . str_replace("135/135", "900/900", $src);
-            $images[] = $src;
+    foreach ($nodes as $a) {
+        
+        $link = $a->getAttribute('href');
+        if ($link) {
+            $images[] = $link;
         }
     }
     return $images;
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['url'])) {
     $html = getPageSource($url);
 
     if ($html) {
-        $images = getImagesFromThumbnailsCarousel($html);
+        $images = getProductImgLinks($html);
         echo json_encode([
             "source" => $html,
             "images" => $images
