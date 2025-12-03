@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>ak_prod_process</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,6 +13,8 @@
     <header class="sticky top-0 z-50">
         <div class="max-w-7xl mx-auto mb-4">
             <div class="flex border bg-white">
+                <!-- <button data-tab="tab1"
+                    class="tab-btn px-4 py-3 border-indigo-600 font-semibold text-indigo-600 hover:text-indigo-600">Get Page Source</button> -->
                 <button data-tab="tab1"
                     class="tab-btn px-4 py-3 text-indigo-600 hover:text-indigo-600">Parse Page Source</button>
                 <button data-tab="tab2"
@@ -25,6 +26,29 @@
 
     <!-- Tabs -->
     <div class="max-w-7xl mx-auto">
+        <!-- <div id="tab1" class="tab-content shadow rounded-lg p-4">
+            <h3 class="text-lg font-semibold mb-3">Get Page Source</h3>
+            <div class=" p-4 rounded shadow-sm space-y-2">
+                <div class="mb-4">
+                    <form id="fetchPageSourceForm" class="flex flex-col gap-2 sm:flex-row items-center">
+                        <input type="text" id="url" placeholder="Enter webpage link" required autofocus
+                            class="flex-1 rounded focus:ring-2 focus:ring-indigo-500 transition p-2 outline-none">
+                        <span id="resultsContainerPageSrc"></span>
+                        <button type="submit"
+                            class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Get Data</button>
+                        <button id="btn_get_page_src" class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Get Page Source</button>
+                    </form>
+                </div>
+    
+                <textarea id="imageLinks" placeholder="Product img links" rows="5"
+                    class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 mb-3 outline-none"></textarea>
+                <button id="btnCopyPageSource"
+                    class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded transition">Copy Page Source</button>
+                <textarea id="sourceCode" placeholder="Page source" rows="5"
+                    class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 mb-3 outline-none"></textarea>
+            </div>
+        </div> -->
+
         <div id="tab1" class="tab-content">
             <div class="space-y-4">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -33,7 +57,7 @@
                             <div class="text-sm">Parse Page Source</div>
 
                             <div class="flex flex-wrap gap-2">
-                                <textarea id="sourceHTML" placeholder="Paste the page source here" autofocus style="font-family: monospace;"
+                                <textarea id="sourceHTML" placeholder="Paste the page source here" autofocus
                                     class="flex-1 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"></textarea>
                                 <div>
                                     <button id="processBtn" class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Parse HTML</button>
@@ -45,23 +69,30 @@
                             <div class="text-sm">Product Details</div>
 
                             <div class="flex flex-col gap-2">
-                                <input type="text" id="productSKU" placeholder="SKU" style="font-family: monospace;"
+                                <input type="text" id="productSKU" placeholder="SKU"
                                     class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border w-full">
-                                <input type="text" id="productTitle" placeholder="Title" style="font-family: monospace;"
+                                <input type="text" id="productTitle" placeholder="Title"
                                     class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border w-full">
-                                <textarea id="productShortDesc" placeholder="Short description" rows="10" style="font-family: monospace;"
+                                <textarea id="productShortDesc" placeholder="Short description" rows="10"
                                     class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border w-full"></textarea>
                             </div>
                         </div>
                         
                         <div class="p-2 rounded border flex flex-col gap-2">
                             <div class="flex flex-wrap gap-2">
+                                <!-- <button id="btn_preview_tp"
+                                    class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-1">Preview Template</button> -->
                                 <button id="btn_productTitle"
                                     class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Title</button>
                                 <button id="copyOutputBtn"
                                     class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Body</button>
                                 <button id="btn_productShortDesc"
                                     class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Short Description</button>
+                            </div>
+
+                            <div class="space-y-4 hidden">
+                                <h3 class="text-lg font-semibold">Preview</h3>
+                                <div id="templatePreview" class="border rounded p-4 bg-gray-50"></div>
                             </div>
                         </div>
                     </div>
@@ -109,12 +140,9 @@
         <div id="tab2" class="tab-content hidden">
             <div class="space-y-4">
                 <div class="p-2 rounded border flex flex-col gap-2">
-                    <div class="text-sm">Download Images and Apply Watermark</div>
                     <div class="flex flex-col gap-2">
-                        <textarea name="image_urls" id="ta_img_urls" placeholder="Product img links"
-                            class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"
-                            rows="5" style="font-family: monospace;" required
-                        ></textarea>
+                        <textarea name="image_urls" id="ta_img_urls" placeholder="Product img links" rows="5" required
+                            class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"></textarea>
                     </div>
                     <div>
                         <button class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded" id="btn_dlimg">Submit</button>

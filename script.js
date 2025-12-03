@@ -2,11 +2,9 @@
 document.querySelectorAll(".tab-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".tab-btn").forEach(b => {
-            b.classList.remove("text-indigo-600", "border-indigo-600", "font-semibold");
-            b.classList.add("border-b-2", "border-transparent");
+            b.classList.remove("text-indigo-600", "border-indigo-600");
         });
-        // btn.classList.remove("text-gray-400");
-        btn.classList.add("text-indigo-600", "border-indigo-600", "font-semibold");
+        btn.classList.add("text-indigo-600", "border-indigo-600");
 
         document.querySelectorAll(".tab-content").forEach(tab => tab.classList.add("hidden"));
         document.getElementById(btn.dataset.tab).classList.remove("hidden");
@@ -16,46 +14,9 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
 // === Original functionality ===
 const processBtn = document.getElementById('processBtn');
 const sourceHTML = document.getElementById('sourceHTML');
-const outputHTML = document.getElementById('outputHTML');
 const templatePreview = document.getElementById('templatePreview');
 const pasteClipboardBtn = document.getElementById('pasteClipboardBtn');
 const copyOutputBtn = document.getElementById('copyOutputBtn');
-const htmlTemplate =
-    `<div id="prod_desc" class="kcard">
-<div class="kcard-b">
-PROD_DESC
-</div>
-</div>
-
-<div id="prod_specs" class="kcard">
-<div class="kcard-h">Product Specifications</div>
-<div class="kcard-b">
-SPECS_TABLE
-</div>
-</div>
-
-<div id="prod_fitments" class="kcard">
-<div class="kcard-h">Fitments</div>
-<div class="kcard-b">
-<div id="Models" class="mb-5">
-FITMENTS_TABLE
-</div>
-</div>
-</div>
-
-<div id="prod_xdetails" class="kcard hidden">
-<div class="kcard-h">Extra Details</div>
-<div class="kcard-b">
-<div id="Models" class="mb-5">
-EXTRA_DETAILS
-</div>
-</div>
-</div>
-
-<div id="prod_acc" class="kcard hidden">
-<div class="kcard-h">Accessories</div>
-<div class="kcard-b">[products name="accessories" skus="123"]</div>
-</div>`;
 
 const tpDescription = `<div id="prod_desc" class="kcard">
 <div class="kcard-b">
@@ -114,10 +75,10 @@ function copyInputValueById(elementId) {
 }
 
 async function sendMultipleImagesToPhp(imageUrls, phpEndpoint) {
+    const resultsDiv = document.getElementById('resultsContainer');
     const formData = new FormData();
 
     let counter = 1;
-
     for (const url of imageUrls) {
         const response = await fetch(url);
         const blob = await response.blob();
@@ -132,32 +93,29 @@ async function sendMultipleImagesToPhp(imageUrls, phpEndpoint) {
     }
 
     // Send all images to PHP at once
-    const resultsDiv = document.getElementById('resultsContainer');
-    resultsDiv.innerHTML = "⏳ Processing...";
-
     fetch(phpEndpoint, {
         method: 'POST',
         body: formData
     })
-        .then(res => res.json())
-        .then((result) => {
-            let html = `<table class="border border-gray-300 mt-4 w-full">
-                    <tr class="bg-gray-100"><th class="p-2 border">Image URL</th><th class="p-2 border">Status</th><th class="p-2 border">Original</th><th class="p-2 border">Watermarked</th></tr>`;
+    .then(res => res.json())
+    .then((result) => {
+        let html = `<table class="border border-slate-100 w-full">
+                <tr class="bg-slate-50"><th class="p-2 border">Image URL</th><th class="p-2 border">Status</th><th class="p-2 border">Original</th><th class="p-2 border">Watermarked</th></tr>`;
 
-            result.results.forEach(res => {
-                html += `<tr>
-                        <td class="p-2 border">${res.url}</td>
-                        <td class="p-2 border">${res.status}</td>
-                        <td class="p-2 border">${res.original ? `<img src="output/${encodeURIComponent(res.original)}" class="w-48 h-auto" />` : ''}</td>
-                        <td class="p-2 border">${res.watermarked ? `<img src="output/${encodeURIComponent(res.watermarked)}" class="w-48 h-auto" />` : ''}</td>
-                    </tr>`;
-            });
-            html += '</table>';
-            resultsDiv.innerHTML = html;
-        })
-        .catch((err) => {
-            resultsDiv.innerHTML = `<p class="text-red-600">${data.error}</p>`;
+        result.results.forEach(res => {
+            html += `<tr>
+                    <td class="p-2 border">${res.url}</td>
+                    <td class="p-2 border">${res.status}</td>
+                    <td class="p-2 border">${res.original ? `<img src="output/${encodeURIComponent(res.original)}" class="w-48 h-auto" />` : ''}</td>
+                    <td class="p-2 border">${res.watermarked ? `<img src="output/${encodeURIComponent(res.watermarked)}" class="w-48 h-auto" />` : ''}</td>
+                </tr>`;
         });
+        html += '</table>';
+        resultsDiv.innerHTML = html;
+    })
+    .catch((err) => {
+        resultsDiv.innerHTML = `<p class="text-red-600">${data.error}</p>`;
+    });
 }
 
 function extractProductImageLinks(htmlString, parentSelector) {
@@ -209,11 +167,6 @@ function parsePageSrc() {
     const fitmentsTable = doc.querySelector("#product-specification > div > div:nth-child(2) > div.brand-model-table.table-wrapper > table");
     const fitmentsHTML = fitmentsTable ? fitmentsTable.outerHTML.trim().replace('data-table', 'fitmentsTable') : '';
 
-    // let filledTemplate = htmlTemplate
-    //     .replace('PROD_DESC', `<strong>${prodDesc} / Product Number: ${prodSku}</strong>`)
-    //     .replace('SPECS_TABLE', specsHTML)
-    //     .replace('FITMENTS_TABLE', fitmentsHTML);    
-
     document.getElementById("ta_description").value = tpDescription.replace('PROD_DESC', `<strong>${prodDesc} / Product Number: ${prodSku}</strong>`);
     document.getElementById("ta_specs").value = tpSpecs.replace('SPECS_TABLE', specsHTML);
     document.getElementById("ta_fitments").value = tpFitments.replace('FITMENTS_TABLE', fitmentsHTML);
@@ -223,9 +176,6 @@ function parsePageSrc() {
     document.getElementById("productSKU").value = prodSku;
     document.getElementById("productShortDesc").value = prodShortDesc;
     document.getElementById("productTitle").value = prodTitle;
-
-    // outputHTML.value = filledTemplate;
-    // templatePreview.innerHTML = filledTemplate;
 
     showMessage("Done parsing the HTML!");
 }
@@ -333,23 +283,26 @@ document.getElementById("btn_dlimg").addEventListener("click", function (e) {
         .split(/\r?\n/)
         .map(l => l.trim())
         .filter(l => l.length > 0);
+    const resultsDiv = document.getElementById('resultsContainer');
+
+    resultsDiv.innerHTML = "⏳ Processing...";
     sendMultipleImagesToPhp(
         links,
         'process_imgs.php'
     );
 });
-document.getElementById('btn_preview_tp').addEventListener('click', () => {
-    const prevHtml = `
-    ${document.getElementById("ta_description").value}
+// document.getElementById('btn_preview_tp').addEventListener('click', () => {
+//     const prevHtml = `
+//     ${document.getElementById("ta_description").value}
 
-    ${document.getElementById("ta_specs").value}
+//     ${document.getElementById("ta_specs").value}
 
-    ${document.getElementById("ta_fitments").value}
+//     ${document.getElementById("ta_fitments").value}
 
-    ${document.getElementById("ta_extra_details").value }
+//     ${document.getElementById("ta_extra_details").value }
 
-    ${document.getElementById("ta_accessories").value}
-    `;
+//     ${document.getElementById("ta_accessories").value}
+//     `;
 
-    templatePreview.innerHTML = prevHtml;    
-});
+//     templatePreview.innerHTML = prevHtml;    
+// });
