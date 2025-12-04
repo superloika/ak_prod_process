@@ -11,12 +11,19 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     });
 });
 
-// === Original functionality ===
 const processBtn = document.getElementById('processBtn');
 const sourceHTML = document.getElementById('sourceHTML');
 const templatePreview = document.getElementById('templatePreview');
 const pasteClipboardBtn = document.getElementById('pasteClipboardBtn');
 const copyOutputBtn = document.getElementById('copyOutputBtn');
+
+// watermarked img paths
+let wm_img_paths = [
+
+];
+
+let finalProductBody = '';
+let uploading_inprogress= false;
 
 const tpDescription = `<div id="prod_desc" class="kcard">
 <div class="kcard-b">
@@ -102,6 +109,8 @@ async function sendMultipleImagesToPhp(imageUrls, phpEndpoint) {
         let html = `<table class="border border-slate-100 w-full">
                 <tr class="bg-slate-50"><th class="p-2 border">Image URL</th><th class="p-2 border">Status</th><th class="p-2 border">Original</th><th class="p-2 border">Watermarked</th></tr>`;
 
+        wm_img_paths = [];
+        let ctr = 0;
         result.results.forEach(res => {
             html += `<tr>
                     <td class="p-2 border">${res.url}</td>
@@ -109,9 +118,16 @@ async function sendMultipleImagesToPhp(imageUrls, phpEndpoint) {
                     <td class="p-2 border">${res.original ? `<img src="output/${encodeURIComponent(res.original)}" class="w-48 h-auto" />` : ''}</td>
                     <td class="p-2 border">${res.watermarked ? `<img src="output/${encodeURIComponent(res.watermarked)}" class="w-48 h-auto" />` : ''}</td>
                 </tr>`;
+            
+            if(ctr === 0) {
+                wm_img_paths.push(res.original);
+            }
+            wm_img_paths.push(res.watermarked);
+            ctr++;
         });
         html += '</table>';
         resultsDiv.innerHTML = html;
+        document.getElementById('txt_wc_img_paths').value = wm_img_paths.join('\n');
     })
     .catch((err) => {
         resultsDiv.innerHTML = `<p class="text-red-600">${data.error}</p>`;
@@ -306,3 +322,65 @@ document.getElementById("btn_dlimg").addEventListener("click", function (e) {
 
 //     templatePreview.innerHTML = prevHtml;    
 // });
+
+document.getElementById("btn_wp_upload").addEventListener("click", function (e) {
+    const formData = new FormData();
+    const wp_upload_progress_result = document.getElementById("wp_upload_progress_result");
+    const btn_wp_upload = document.getElementById("btn_wp_upload");
+
+    const sel_wp_category = document.getElementById('sel_wp_category');
+    const selectedCategories = Array.from(sel_wp_category.selectedOptions).map(opt => opt.value);
+    const sel_wp_brand = document.getElementById('sel_wp_brand');
+    const selectedBrands = Array.from(sel_wp_brand.selectedOptions).map(opt => opt.value);
+    const sel_wp_manufacturer = document.getElementById('sel_wp_manufacturer');
+    const selectedManufacturers = Array.from(sel_wp_manufacturer.selectedOptions).map(opt => opt.value);
+    
+    finalProductBody = `${document.getElementById("ta_description").value}\n\n` + 
+        `${document.getElementById("ta_specs").value}\n\n` + 
+        `${document.getElementById("ta_fitments").value}\n\n` + 
+        `${document.getElementById("ta_extra_details").value }\n\n` + 
+        `${document.getElementById("ta_accessories").value}`;
+
+    if(wm_img_paths.length < 1 || selectedCategories.length < 1 || selectedBrands.length < 1 || selectedManufacturers.length < 1){
+        alert('Unable to proceed, please check some missing details');
+        return;
+    }
+
+    wm_img_paths.forEach(path => {
+        formData.append('wm_img_paths[]', path);
+    });
+    selectedCategories.forEach(cat => {
+        formData.append('category_ids[]', cat);
+    });
+    selectedBrands.forEach(brand => {
+        formData.append('brand_ids[]', brand);
+    });
+    selectedManufacturers.forEach(manufacturer => {
+        formData.append('manufacturer_ids[]', manufacturer);
+    });
+    formData.append('name', document.getElementById('productTitle').value.trim());
+    formData.append('sku', document.getElementById('productSKU').value.trim());
+    formData.append('short_description', document.getElementById('productShortDesc').value.trim());
+    formData.append('description', finalProductBody.trim());
+
+    wp_upload_progress_result.innerHTML = "Uploading, please wait..."
+    btn_wp_upload.setAttribute('disabled', true);
+    fetch('./test/wc_create_product_test.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if(data.success) {
+            wp_upload_progress_result.innerHTML = `<span>${data.message}: (${data.data.product_id})</span> <a href='${data.data.product_permalink}' target='_blank' class='text-indigo-400 hover:text-indigo-800'>View Product</a>`;
+        } else {
+            wp_upload_progress_result.innerHTML = `<span class='text-red-500'>${data.message}</span>`;
+        }
+    })
+    .catch(error => { 
+        console.error('Error:', error);
+        wp_upload_progress_result.innerHTML = `<span class='text-red-500'>${error}</span>`;
+    })
+    .finally(() => btn_wp_upload.removeAttribute('disabled'));
+});

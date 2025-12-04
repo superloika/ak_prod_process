@@ -18,7 +18,11 @@
                     class="tab-btn px-4 py-3 text-indigo-600 hover:text-indigo-600">Parse Page Source</button>
                 <button data-tab="tab2"
                     class="tab-btn px-4 py-3 hover:text-indigo-600">Bulk Image Watermark</button>
-                <div id="statusMessage" class="tab-btn px-4 py-3 text-green-600 text-sm"></div>
+                <button data-tab="tab3"
+                    class="tab-btn px-4 py-3 hover:text-indigo-600">Upload</button>
+                
+                <!-- status msg -->
+                <div id="statusMessage" class="px-4 py-3 text-green-600 text-sm"></div>
             </div>
         </div>
     </header>
@@ -53,20 +57,9 @@
                                     class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border w-full"></textarea>
                             </div>
                         </div>
-                        
-                        <div class="p-2 rounded border flex flex-col gap-2">
-                            <div class="flex flex-wrap gap-2">
-                                <button id="btn_productTitle"
-                                    class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Title</button>
-                                <button id="copyOutputBtn"
-                                    class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Body</button>
-                                <button id="btn_productShortDesc"
-                                    class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Short Description</button>
-                            </div>
-                        </div>
                     </div>
 
-                    <div class="grid-col col-span-1 lg:col-span-2">
+                    <div class="grid-col col-span-1 lg:col-span-2 space-y-4">
                         <div class="p-2 rounded border flex flex-col gap-2">
                             <div class="text-sm">Product Details - Body</div>
                             <div class="flex flex-col gap-2">
@@ -101,6 +94,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="p-2 rounded border flex flex-col gap-2">
+                            <div class="flex flex-wrap gap-2">
+                                <button id="btn_productTitle"
+                                    class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Title</button>
+                                <button id="copyOutputBtn"
+                                    class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Body</button>
+                                <button id="btn_productShortDesc"
+                                    class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Short Description</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,7 +116,7 @@
                     <div class="flex flex-col gap-2">
                         <textarea name="image_urls" id="ta_img_urls" placeholder="Product img links"
                             class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"
-                            rows="5" style="font-family: monospace;" required
+                            rows="10" style="font-family: monospace;" required
                         ></textarea>
                     </div>
                     <div>
@@ -121,6 +124,44 @@
                     </div>
                 </div>
                 <div id="resultsContainer" class=""></div>
+            </div>
+        </div>
+
+        <div id="tab3" class="tab-content hidden">
+            <div class="space-y-4">
+                <div class="p-2 rounded border flex flex-col gap-2">
+                    <div class="text-sm">Upload</div>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <select id="sel_wp_brand" style="font-family: monospace;" class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple>
+                            <option value="515">Volkswagen</option>
+                            <option value="499">Peugeot</option>
+                            <option value="466">Citroen</option>
+                            <option value="498">Opel</option>
+                            <option value="413">Kia</option>
+                            <option value="408">Hyundai</option>
+                            <option value="497">Mitsubishi</option>
+                        </select>
+                        <select id="sel_wp_manufacturer" style="font-family: monospace;" class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple>
+                            <option value="570">Aftermarket</option>
+                            <option value="540">Genuine</option>
+                        </select>
+                        <select id="sel_wp_category" style="font-family: monospace;" class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple>
+                            <option value="231">Car Remotes</option>
+                            <option value="236">Face to face</option>
+                            <option value="243">Remote blades</option>
+                        </select>
+                        <textarea type="text" id="txt_wc_img_paths" placeholder="Watermarked Image Paths" rows="5"
+                            style="font-family: monospace;" class="flex-1 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"></textarea>
+                    </div>
+                    <div class="flex flex-wrap gap-2 items-center">
+                        <div>
+                            <button class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded" id="btn_wp_upload">Upload</button>
+                        </div>
+                        <div>
+                            <div id="wp_upload_progress_result" class="text-sm"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

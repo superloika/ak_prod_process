@@ -1,12 +1,4 @@
 <?php
-/**
- * WooCommerce Product Creator – Standalone Local Version
- * Works from your laptop/PC without loading WordPress at all
- * Uses native PHP cURL (no WordPress functions needed)
- *
- * Save as: woocommerce-local-creator.php
- * Run with: php woocommerce-local-creator.php
- */
 
 class WooCommerceLocalProductCreator
 {
