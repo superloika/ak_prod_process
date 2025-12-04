@@ -365,7 +365,7 @@ document.getElementById("btn_wp_upload").addEventListener("click", function (e) 
 
     wp_upload_progress_result.innerHTML = "Uploading, please wait..."
     btn_wp_upload.setAttribute('disabled', true);
-    fetch('./test/wc_create_product_test.php', {
+    fetch('./wc_upload_product.php', {
         method: 'POST',
         body: formData
     })
