@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ak_prod_process</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,12 +15,10 @@
     <header class="sticky top-0 z-50">
         <div class="max-w-7xl mx-auto mb-4">
             <div class="flex border bg-white">
-                <button data-tab="tab1"
-                    class="tab-btn px-4 py-3 text-indigo-600 hover:text-indigo-600">Parse Page Source</button>
-                <button data-tab="tab2"
-                    class="tab-btn px-4 py-3 hover:text-indigo-600">Bulk Image Watermark</button>
-                <button data-tab="tab3"
-                    class="tab-btn px-4 py-3 hover:text-indigo-600">Upload</button>
+
+                <button data-tabs="main" data-target="main_panel1" class="tab-btn block text-left px-4 py-2">Parse Page Source</button>
+                <button data-tabs="main" data-target="main_panel2" class="tab-btn block text-left px-4 py-2">Bulk Image Watermark</button>
+                <button data-tabs="main" data-target="main_panel3" class="tab-btn block text-left px-4 py-2">Upload</button>
                 
                 <!-- status msg -->
                 <div id="statusMessage" class="px-4 py-3 text-green-600 text-sm"></div>
@@ -29,15 +28,15 @@
 
     <!-- Tabs -->
     <div class="max-w-7xl mx-auto">
-        <div id="tab1" class="tab-content">
+        <div data-tabs="main" id="main_panel1" class="tab-panel">
             <div class="space-y-4">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     <div class="grid-col space-y-4">
-                        <div class="p-2 rounded border flex flex-col gap-2">
+                        <div class="p-2 rounded border flex flex-col gap-2 bg-slate-50">
                             <div class="text-sm">Parse Page Source</div>
 
                             <div class="flex flex-wrap gap-2">
-                                <textarea id="sourceHTML" placeholder="Paste the page source here" autofocus style="font-family: monospace;"
+                                <textarea id="sourceHTML" placeholder="Paste the page source here" autofocus 
                                     class="flex-1 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"></textarea>
                                 <div>
                                     <button id="processBtn" class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Parse HTML</button>
@@ -45,52 +44,63 @@
                             </div>
                         </div>
 
-                        <div class="p-2 rounded border flex flex-col gap-2">
+                        <div class="p-2 rounded border flex flex-col gap-2 bg-slate-50">
                             <div class="text-sm">Product Details</div>
 
                             <div class="flex flex-col gap-2">
-                                <input type="text" id="productSKU" placeholder="SKU" style="font-family: monospace;"
+                                <input type="text" id="productSKU" placeholder="SKU" 
                                     class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border w-full">
-                                <input type="text" id="productTitle" placeholder="Title" style="font-family: monospace;"
+                                <input type="text" id="productTitle" placeholder="Title" 
                                     class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border w-full">
-                                <textarea id="productShortDesc" placeholder="Short description" rows="10" style="font-family: monospace;"
+                                <textarea id="productShortDesc" placeholder="Short description" rows="10" 
                                     class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border w-full"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="grid-col col-span-1 lg:col-span-2 space-y-4">
-                        <div class="p-2 rounded border flex flex-col gap-2">
+                        <div class="p-2 rounded border flex flex-col gap-2 bg-slate-50">
                             <div class="text-sm">Product Details - Body</div>
-                            <div class="flex flex-col gap-2">
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <button data-tabs="tab_body" data-target="tab_body_panel1" class="tab-btn text-left p-1 text-sm">Description</button>
+                                <button data-tabs="tab_body" data-target="tab_body_panel2" class="tab-btn text-left p-1 text-sm">Specs</button>
+                                <button data-tabs="tab_body" data-target="tab_body_panel3" class="tab-btn text-left p-1 text-sm">Fitments</button>
+                                <button data-tabs="tab_body" data-target="tab_body_panel4" class="tab-btn text-left p-1 text-sm">Extras</button>
+                                <button data-tabs="tab_body" data-target="tab_body_panel5" class="tab-btn text-left p-1 text-sm">Accessories</button>
+                            </div>
+                            
+                            <div data-tabs="tab_body" id="tab_body_panel1" class="tab-panel">
                                 <div class="flex flex-col gap-2">
-                                    <!-- <span class="text-sm">Description</span> -->
-                                    <textarea id="ta_description" placeholder="Description" style="font-family: monospace;" rows="10"
+                                    <textarea id="ta_description" placeholder="Description" rows="25"
                                         class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"></textarea>
                                 </div>
-        
+                            </div>
+                            <div data-tabs="tab_body" id="tab_body_panel2" class="tab-panel hidden">
                                 <div class="flex flex-col gap-2">
-                                    <!-- <span class="text-sm">Specs</span> -->
-                                    <textarea id="ta_specs" placeholder="Specs" rows="10" style="font-family: monospace;"
+                                    <textarea id="ta_specs" placeholder="Specs" rows="25"
                                         class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"></textarea>
                                 </div>
-        
+                            </div>
+                            <div data-tabs="tab_body" id="tab_body_panel3" class="tab-panel hidden">
                                 <div class="flex flex-col gap-2">
-                                    <!-- <span class="text-sm">Fitments</span> -->
-                                    <textarea id="ta_fitments" placeholder="Fitments" rows="10" style="font-family: monospace;"
+                                    <textarea id="ta_fitments" placeholder="Fitments" rows="25"
                                         class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"></textarea>
                                 </div>
-        
+                            </div>
+                            <div data-tabs="tab_body" id="tab_body_panel4" class="tab-panel hidden">
                                 <div class="flex flex-col gap-2">
-                                    <!-- <span class="text-sm">Extra Details</span> -->
-                                    <textarea id="ta_extra_details" placeholder="Extra Details" rows="10" style="font-family: monospace;"
+                                    <textarea id="ta_extra_details" placeholder="Extra Details" rows="25"
                                         class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"></textarea>
                                 </div>
-        
+                            </div>
+                            <div data-tabs="tab_body" id="tab_body_panel5" class="tab-panel hidden">
                                 <div class="flex flex-col gap-2">
-                                    <!-- <span class="text-sm">Accessories</span> -->
-                                    <textarea id="ta_accessories" placeholder="Accessories" rows="10" style="font-family: monospace;"
+                                    <textarea id="ta_accessories" placeholder="Accessories" rows="25"
                                         class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"></textarea>
+                                    <div>
+                                        <button id="btnSanitizeAccessories"
+                                            class="bg-indigo-700 hover:bg-indigo-800 text-white p-1 rounded">Sanitize Accessories</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -109,14 +119,14 @@
             </div>
         </div>
 
-        <div id="tab2" class="tab-content hidden">
+        <div data-tabs="main" id="main_panel2" class="tab-panel hidden">
             <div class="space-y-4">
                 <div class="p-2 rounded border flex flex-col gap-2">
                     <div class="text-sm">Download Images and Apply Watermark</div>
                     <div class="flex flex-col gap-2">
                         <textarea name="image_urls" id="ta_img_urls" placeholder="Product img links"
                             class="w-full rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"
-                            rows="10" style="font-family: monospace;" required
+                            rows="10"  required
                         ></textarea>
                     </div>
                     <div>
@@ -127,31 +137,39 @@
             </div>
         </div>
 
-        <div id="tab3" class="tab-content hidden">
+        <div data-tabs="main" id="main_panel3" class="tab-panel hidden">
             <div class="space-y-4">
                 <div class="p-2 rounded border flex flex-col gap-2">
                     <div class="text-sm">Upload</div>
+
+                    <div class="flex flex-col gap-2 border p-2">
+                        <div class="text-sm text-slate-500">Provide a product ID for update mode</div>
+                        <div>
+                            <input type="text" id="productID" placeholder="Product ID" 
+                                class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border">
+                        </div>
+                    </div>
                     <div class="flex flex-col sm:flex-row gap-2">
-                        <select id="sel_wp_brand" style="font-family: monospace;" class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple>
+                        <select id="sel_wp_brand"  class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple size="10">
+                            <option value="408">Hyundai</option>
                             <option value="515">Volkswagen</option>
                             <option value="499">Peugeot</option>
                             <option value="466">Citroen</option>
                             <option value="498">Opel</option>
                             <option value="413">Kia</option>
-                            <option value="408">Hyundai</option>
                             <option value="497">Mitsubishi</option>
                         </select>
-                        <select id="sel_wp_manufacturer" style="font-family: monospace;" class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple>
-                            <option value="570">Aftermarket</option>
+                        <select id="sel_wp_manufacturer"  class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple size="10">
                             <option value="540">Genuine</option>
+                            <option value="570">Aftermarket</option>
                         </select>
-                        <select id="sel_wp_category" style="font-family: monospace;" class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple>
+                        <select id="sel_wp_category"  class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple size="10">
                             <option value="231">Car Remotes</option>
                             <option value="236">Face to face</option>
                             <option value="243">Remote blades</option>
                         </select>
                         <textarea type="text" id="txt_wc_img_paths" placeholder="Watermarked Image Paths" rows="5"
-                            style="font-family: monospace;" class="flex-1 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"></textarea>
+                             class="flex-1 rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border"></textarea>
                     </div>
                     <div class="flex flex-wrap gap-2 items-center">
                         <div>
@@ -164,7 +182,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <script src="script.js"></script>

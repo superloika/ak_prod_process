@@ -16,7 +16,7 @@ class WooCommerceLocalProductCreator
     /**
      * Create a simple product
      */
-    public function createSimpleProduct(array $data): array
+    public function createSimpleProduct(array $data, $product_id = null): array
     {
         $defaults = [
             'type'               => 'simple',
@@ -24,20 +24,24 @@ class WooCommerceLocalProductCreator
             'catalog_visibility' => 'visible',
         ];
 
-        return $this->request('POST', '/wc/v3/products', array_merge($defaults, $data));
+        $endpoint = $product_id 
+            ? "/wc/v3/products/$product_id" 
+            : "/wc/v3/products";
+
+        return $this->request('POST', $endpoint, array_merge($defaults, $data));
     }
 
     /**
      * Create variable product + variations in one call
      */
-    public function createVariableProduct(array $product_data, array $variations = []): array
-    {
-        $product_data['type'] = 'variable';
-        if ($variations) {
-            $product_data['variations'] = $variations;
-        }
-        return $this->request('POST', '/wc/v3/products', $product_data);
-    }
+    // public function createVariableProduct(array $product_data, array $variations = []): array
+    // {
+    //     $product_data['type'] = 'variable';
+    //     if ($variations) {
+    //         $product_data['variations'] = $variations;
+    //     }
+    //     return $this->request('POST', '/wc/v3/products', $product_data);
+    // }
 
     /**
      * Generic API request using cURL (no WordPress needed)

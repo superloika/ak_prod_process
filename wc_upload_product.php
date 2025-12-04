@@ -31,6 +31,7 @@ try {
     $sku = $_POST['sku'] ?? '';
     $short_description = $_POST['short_description'] ?? '';
     $description = $_POST['description'] ?? '';
+    $product_id = $_POST['product_id'] ?? '';
 
     // upload images
     if(count($wm_img_paths) > 0) {
@@ -53,22 +54,32 @@ try {
     );
 
     $product = $wc->createSimpleProduct([
-        'name'              => $name,
-        'sku'               => $sku,
-        'short_description' => $short_description,
-        'description'       => $description,
+            'name'              => $name,
+            'sku'               => $sku,
+            'short_description' => $short_description,
+            'description'       => $description,
 
-        // Built-in fields (standard object format)
-        // 'categories'        => [ ['id' => $category_id] ],  // car remotes term id
-        'categories'        => array_map(fn($val) => ['id' => $val], $category_ids),
+            // Built-in fields (standard object format)
+            // 'categories'        => [ ['id' => $category_id] ],  // car remotes term id
+            'categories'        => array_map(fn($val) => ['id' => $val], $category_ids),
 
-        // Custom fields (flat integer arrays – your real IDs!)
-        'brands'            => $brand_ids,             // any of brands term ID
-        'manufacturer'      => $manufacturer_ids,             //  any of Manufacturers term ID
-        'images'            => array_map(fn($val) => ['id' => $val], $img_ids),
-        'manage_stock'      => false,
-        'stock_quantity'    => null,
-    ]);
+            // Custom fields (flat integer arrays – your real IDs!)
+            'brands'            => $brand_ids,             // any of brands term ID
+            'manufacturer'      => $manufacturer_ids,             //  any of Manufacturers term ID
+            'images'            => array_map(fn($val) => ['id' => $val], $img_ids),
+            'manage_stock'      => false,
+            'stock_quantity'    => null,
+
+            'meta_data' => [
+                [ "key" => "_elementor_edit_mode", "value" => "" ],
+                [ "key" => "_elementor_data", "value" => "" ],
+                [ "key" => "_elementor_template_type", "value" => "" ],
+                [ "key" => "_elementor_version", "value" => "" ],
+                [ "key" => "_elementor_css", "value" => ""]
+            ]
+        ],
+        $product_id
+    );
     
     // Build response
     $response['success'] = true;

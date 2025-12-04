@@ -1,15 +1,44 @@
-// === Tab switching ===
-document.querySelectorAll(".tab-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        document.querySelectorAll(".tab-btn").forEach(b => {
-            b.classList.remove("text-indigo-600", "border-indigo-600");
-        });
-        btn.classList.add("text-indigo-600", "border-indigo-600");
+// === Tabs ===
+const ACTIVE_CLASSES   = "bg-indigo-50 text-indigo-700 font-medium border-l-4 border-indigo-600";
+const INACTIVE_CLASSES = "text-gray-600 hover:bg-gray-100 border-l-4 border-transparent";
 
-        document.querySelectorAll(".tab-content").forEach(tab => tab.classList.add("hidden"));
-        document.getElementById(btn.dataset.tab).classList.remove("hidden");
-    });
+document.querySelectorAll('[data-tabs]').forEach(element => {
+    if (element.tagName === 'BUTTON') {
+        // It's a tab button
+        element.addEventListener('click', () => {
+            const group = element.getAttribute('data-tabs');
+            const target = element.getAttribute('data-target');
+            // const group = element.dataset.group;
+            // const target = element.dataset.target;
+
+            // Update all buttons in this group
+            document.querySelectorAll(`[data-tabs="${group}"]`).forEach(el => {
+                if (el.tagName === 'BUTTON') {
+                    // el.setAttribute('data-active', el.getAttribute('data-target') === target);
+                    el.classList.remove(...ACTIVE_CLASSES.split(' '));
+                    el.classList.add(...INACTIVE_CLASSES.split(' '));
+                } else {
+                    // It's a panel
+                    el.classList.toggle('hidden', el.id !== target);
+                }
+            });
+
+            element.classList.remove(...INACTIVE_CLASSES.split(' '));
+            element.classList.add(...ACTIVE_CLASSES.split(' '));
+        });
+    }
 });
+
+// Auto-activate first tab in each group
+document.querySelectorAll('[data-tabs]').forEach(el => {
+    if (el.tagName !== 'BUTTON') return;
+    const group = el.getAttribute('data-tabs');
+    // const hasActive = document.querySelector(`[data-tabs="${group}"][data-active="true"]`);
+    if (el === document.querySelector(`[data-tabs="${group}"]`)) {
+        el.click();
+    }
+});
+// === /Tabs ===
 
 const processBtn = document.getElementById('processBtn');
 const sourceHTML = document.getElementById('sourceHTML');
@@ -362,6 +391,7 @@ document.getElementById("btn_wp_upload").addEventListener("click", function (e) 
     formData.append('sku', document.getElementById('productSKU').value.trim());
     formData.append('short_description', document.getElementById('productShortDesc').value.trim());
     formData.append('description', finalProductBody.trim());
+    formData.append('product_id', document.getElementById('productID').value.trim());
 
     wp_upload_progress_result.innerHTML = "Uploading, please wait..."
     btn_wp_upload.setAttribute('disabled', true);
@@ -383,4 +413,9 @@ document.getElementById("btn_wp_upload").addEventListener("click", function (e) 
         wp_upload_progress_result.innerHTML = `<span class='text-red-500'>${error}</span>`;
     })
     .finally(() => btn_wp_upload.removeAttribute('disabled'));
+});
+
+document.getElementById("btnSanitizeAccessories").addEventListener("click", function (e) {
+    const ta_accessories = document.getElementById('ta_accessories');
+    ta_accessories.value = ta_accessories.value.replace(/hidden/gi, "").replace(/mk/gi, "AK");
 });
