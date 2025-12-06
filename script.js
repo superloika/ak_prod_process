@@ -1,6 +1,6 @@
 // === Tabs ===
-const ACTIVE_CLASSES   = "bg-indigo-50 text-indigo-700 font-medium border-l-4 border-indigo-600";
-const INACTIVE_CLASSES = "text-gray-600 hover:bg-gray-100 border-l-4 border-transparent";
+const ACTIVE_CLASSES   = "bg-indigo-50 text-indigo-700 font-medium";
+const INACTIVE_CLASSES = "text-gray-600 hover:bg-gray-100";
 
 document.querySelectorAll('[data-tabs]').forEach(element => {
     if (element.tagName === 'BUTTON') {
@@ -135,26 +135,34 @@ async function sendMultipleImagesToPhp(imageUrls, phpEndpoint) {
     })
     .then(res => res.json())
     .then((result) => {
-        let html = `<table class="border border-slate-100 w-full">
-                <tr class="bg-slate-50"><th class="p-2 border">Image URL</th><th class="p-2 border">Status</th><th class="p-2 border">Original</th><th class="p-2 border">Watermarked</th></tr>`;
+        let html = `<div class="flex flex-wrap gap-2 p-2 border bg-slate-50">`;
 
+        // store imgs paths temporarily - will be accessed during product upload
         wm_img_paths = [];
         let ctr = 0;
         result.results.forEach(res => {
-            html += `<tr>
-                    <td class="p-2 border">${res.url}</td>
-                    <td class="p-2 border">${res.status}</td>
-                    <td class="p-2 border">${res.original ? `<img src="output/${encodeURIComponent(res.original)}" class="w-48 h-auto" />` : ''}</td>
-                    <td class="p-2 border">${res.watermarked ? `<img src="output/${encodeURIComponent(res.watermarked)}" class="w-48 h-auto" />` : ''}</td>
-                </tr>`;
-            
             if(ctr === 0) {
                 wm_img_paths.push(res.original);
             }
             wm_img_paths.push(res.watermarked);
             ctr++;
+
+            html += `<div class="flex flex-col gap-2 border p-2 text-sm bg-white">
+                <div class="flex grid grid-cols lg:grid-cols-2">
+                    <div class="grid-col">
+                        ${res.original ? `<img src="output/${encodeURIComponent(res.original)}" class="w-48 h-auto" />` : ''}
+                    </div>
+                    <div class="grid-col">
+                        ${res.watermarked ? `<img src="output/${encodeURIComponent(res.watermarked)}" class="w-48 h-auto" />` : ''}
+                    </div>
+                </div>
+                <div class="border p-2">
+                    <div>URL: ${res.url}</div>
+                    <div>Status: ${res.status}</div>
+                </div>
+            </div>`;
         });
-        html += '</table>';
+        html += '</div>';
         resultsDiv.innerHTML = html;
         document.getElementById('txt_wc_img_paths').value = wm_img_paths.join('\n');
     })

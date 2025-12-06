@@ -14,7 +14,7 @@
     <!-- Sticky Header -->
     <header class="sticky top-0 z-50">
         <div class="max-w-7xl mx-auto mb-4">
-            <div class="flex border bg-white">
+            <div class="flex border bg-slate-50 p-1">
 
                 <button data-tabs="main" data-target="main_panel1" class="tab-btn block text-left px-4 py-2">Parse Page Source</button>
                 <button data-tabs="main" data-target="main_panel2" class="tab-btn block text-left px-4 py-2">Bulk Image Watermark</button>
@@ -121,7 +121,7 @@
 
         <div data-tabs="main" id="main_panel2" class="tab-panel hidden">
             <div class="space-y-4">
-                <div class="p-2 rounded border flex flex-col gap-2">
+                <div class="p-2 rounded border flex flex-col gap-2 bg-slate-50">
                     <div class="text-sm">Download Images and Apply Watermark</div>
                     <div class="flex flex-col gap-2">
                         <textarea name="image_urls" id="ta_img_urls" placeholder="Product img links"
@@ -139,7 +139,7 @@
 
         <div data-tabs="main" id="main_panel3" class="tab-panel hidden">
             <div class="space-y-4">
-                <div class="p-2 rounded border flex flex-col gap-2">
+                <div class="p-2 rounded border flex flex-col gap-2 bg-slate-50">
                     <div class="text-sm">Upload</div>
 
                     <div class="flex flex-col gap-2 border p-2">
@@ -151,8 +151,8 @@
                     </div>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <select id="sel_wp_brand"  class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple size="10">
-                            <option value="408">Hyundai</option>
                             <option value="515">Volkswagen</option>
+                            <option value="408">Hyundai</option>
                             <option value="499">Peugeot</option>
                             <option value="466">Citroen</option>
                             <option value="498">Opel</option>
@@ -160,8 +160,8 @@
                             <option value="497">Mitsubishi</option>
                         </select>
                         <select id="sel_wp_manufacturer"  class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple size="10">
-                            <option value="540">Genuine</option>
                             <option value="570">Aftermarket</option>
+                            <option value="540">Genuine</option>
                         </select>
                         <select id="sel_wp_category"  class="rounded p-2 focus:ring-2 focus:ring-indigo-500 outline-none border" multiple size="10">
                             <option value="231">Car Remotes</option>

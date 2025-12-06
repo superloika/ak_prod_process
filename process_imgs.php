@@ -1,6 +1,6 @@
 <?php
 error_reporting(E_ALL);
-ini_set('display_errors', 0); // Hide warnings/notices from breaking JSON
+ini_set('display_errors', 0);
 
 header('Content-Type: application/json');
 
@@ -74,9 +74,15 @@ if (count($savedFiles) > 0) {
 
         switch ($imageInfo[2]) {
             case IMAGETYPE_JPEG:
-            case IMAGETYPE_PNG:
                 $mainImage = imagecreatefromstring($imageData);
-                $ext = ($imageInfo[2] == IMAGETYPE_JPEG) ? 'jpg' : 'png';
+                $ext = "jpg";
+                break;
+            case IMAGETYPE_PNG:
+                $png = imagecreatefromstring($imageData);
+                $mainImage = imagecreatetruecolor(imagesx($png), imagesy($png));
+                imagefill($mainImage, 0, 0, imagecolorallocate($mainImage, 255, 255, 255));
+                imagecopy($mainImage, $png, 0, 0, 0, 0, imagesx($png), imagesy($png));
+                $ext = 'jpg';
                 break;
             default:
                 $result['status'] = '❌ Unsupported format.';
@@ -94,12 +100,13 @@ if (count($savedFiles) > 0) {
         if ($ext === 'jpg') {
             imagejpeg($mainImage, $originalPath, 90);
         } else {
-            imagepng($mainImage, $originalPath);
+            // imagepng($mainImage, $originalPath, 6);
         }
 
         // Resize watermark
         $mainWidth = imagesx($mainImage);
         $mainHeight = imagesy($mainImage);
+
         $newWmWidth = $mainWidth * 0.5;
         $newWmHeight = ($newWmWidth / $wmWidth) * $wmHeight;
 
@@ -117,11 +124,12 @@ if (count($savedFiles) > 0) {
         if ($ext === 'jpg') {
             imagejpeg($mainImage, $watermarkedPath, 90);
         } else {
-            imagepng($mainImage, $watermarkedPath);
+            // imagepng($mainImage, $watermarkedPath, 6);
         }
 
         imagedestroy($mainImage);
         imagedestroy($resizedWatermark);
+        // imagedestroy($png);
 
         $result['status'] = 'Success';
         $result['original'] = basename($originalPath);
