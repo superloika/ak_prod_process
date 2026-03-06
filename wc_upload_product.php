@@ -70,6 +70,21 @@ try {
             'manage_stock'      => false,
             'stock_quantity'    => null,
 
+            'attributes'        => [
+                [
+                    'name'         => 'Condition',
+                    'visible'      => true,
+                    'variation'    => false,
+                    'options'      => ['New']
+                ],
+                // [
+                //     'name'         => 'Manufacturer',
+                //     'visible'      => true,
+                //     'variation'    => false,
+                //     'options'      => ['Xhorse']
+                // ],
+            ],
+
             'meta_data' => [
                 [ "key" => "_elementor_edit_mode", "value" => "" ],
                 [ "key" => "_elementor_data", "value" => "" ],
