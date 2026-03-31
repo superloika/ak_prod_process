@@ -63,6 +63,7 @@ PROD_DESC
 const tpSpecs = `<div id="prod_specs" class="kcard">
 <div class="kcard-h">Product Specifications</div>
 <div class="kcard-b">
+[display_attributes]
 SPECS_TABLE
 </div>
 </div>`;
