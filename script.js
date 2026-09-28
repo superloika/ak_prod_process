@@ -204,7 +204,8 @@ function parsePageSrc() {
     const prodTitle = doc.querySelector("#product-details-form > div > div.product-essential > div.overview > div.page-title > h1")?.innerHTML.trim() || "";
     // const alertDiv = doc.querySelector('.alert');
     // const prodDesc = doc.querySelector('#lazy-full-description > div')?.innerHTML.trim() || "";
-    const prodDesc = doc.querySelector('#lazy-full-description > p:nth-child(3) > span')?.innerHTML.trim() || "";
+    // const prodDesc = doc.querySelector('#lazy-full-description > p:nth-child(3) > span')?.innerHTML.trim() || "";
+    const prodDesc = doc.querySelector('#lazy-full-description > div')?.innerHTML.trim() || doc.querySelector('#lazy-full-description > p:nth-child(3) > span')?.innerHTML.trim();
     const prodShortDesc = `${prodDesc} / Product Number: ${prodSku}`;
 
     let specsHTML = '';
