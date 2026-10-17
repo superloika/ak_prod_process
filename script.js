@@ -64,9 +64,13 @@ const tpSpecs = `<div id="prod_specs" class="kcard">
 <div class="kcard-h">Product Specifications</div>
 <div class="kcard-b">
 [display_attributes]
-SPECS_TABLE
 </div>
-</div>`;
+</div>
+
+<code>
+SPECS_TABLE
+</code>
+`;
 
 const tpFitments = `<div id="prod_fitments" class="kcard not-hidden">
 <div class="kcard-h">Fitments</div>
