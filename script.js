@@ -1,3 +1,28 @@
+// CodeMirror editor init
+const editorConfig = {
+    mode: 'htmlmixed',
+    // theme: 'dracula',
+    lineNumbers: true,
+    indentUnit: 4,
+    tabSize: 4,
+    indentWithTabs: false,
+    lineWrapping: true,
+    autoCloseTags: true,
+    matchTags: {
+        bothTags: true
+    },
+    extraKeys: {
+        'Ctrl-J': 'toMatchingTag'
+    }
+};
+const editor_description = CodeMirror.fromTextArea(document.getElementById('ta_description'), editorConfig);
+const editor_specs = CodeMirror.fromTextArea(document.getElementById('ta_specs'), editorConfig);
+const editor_fitments = CodeMirror.fromTextArea(document.getElementById('ta_fitments'), editorConfig);
+const editor_extra_details = CodeMirror.fromTextArea(document.getElementById('ta_extra_details'), editorConfig);
+const editor_accessories = CodeMirror.fromTextArea(document.getElementById('ta_accessories'), editorConfig);
+// /CodeMirror editor init
+
+
 // === Tabs ===
 const ACTIVE_CLASSES   = "bg-indigo-50 text-indigo-700 font-medium";
 const INACTIVE_CLASSES = "text-gray-600 hover:bg-gray-100";
@@ -25,6 +50,13 @@ document.querySelectorAll('[data-tabs]').forEach(element => {
 
             element.classList.remove(...INACTIVE_CLASSES.split(' '));
             element.classList.add(...ACTIVE_CLASSES.split(' '));
+            
+            // refresh all CodeMirror editors to fix linenumbers display bug for temp hidden elements in a tab
+            editor_description.refresh();
+            editor_specs.refresh();
+            editor_fitments.refresh();
+            editor_extra_details.refresh();
+            editor_accessories.refresh();
         });
     }
 });
@@ -39,25 +71,6 @@ document.querySelectorAll('[data-tabs]').forEach(el => {
     }
 });
 // === /Tabs ===
-
-
-// CodeMirror editor init
-const editorConfig = {
-    mode: 'htmlmixed',
-    theme: 'dracula',
-    // lineNumbers: true,
-    indentUnit: 4,
-    tabSize: 4,
-    indentWithTabs: false,
-    lineWrapping: true,
-    autoCloseTags: true
-};
-const editor_description = CodeMirror.fromTextArea(document.getElementById('ta_description'), editorConfig);
-const editor_specs = CodeMirror.fromTextArea(document.getElementById('ta_specs'), editorConfig);
-const editor_fitments = CodeMirror.fromTextArea(document.getElementById('ta_fitments'), editorConfig);
-const editor_extra_details = CodeMirror.fromTextArea(document.getElementById('ta_extra_details'), editorConfig);
-const editor_accessories = CodeMirror.fromTextArea(document.getElementById('ta_accessories'), editorConfig);
-// /CodeMirror editor init
 
 
 const processBtn = document.getElementById('processBtn');
@@ -249,14 +262,19 @@ function parsePageSrc() {
 
     // document.getElementById("ta_description").value = tpDescription.replace('PROD_DESC', `<strong>${prodDesc} / Product Number: ${prodSku}</strong>`);
     editor_description.setValue(tpDescription.replace('PROD_DESC', `<strong>${prodDesc} / Product Number: ${prodSku}</strong>`));
+    editor_description.save();
     // document.getElementById("ta_specs").value = tpSpecs.replace('SPECS_TABLE', specsHTML);
     editor_specs.setValue(tpSpecs.replace('SPECS_TABLE', specsHTML));
+    editor_specs.save();
     // document.getElementById("ta_fitments").value = tpFitments.replace('FITMENTS_TABLE', fitmentsHTML);
     editor_fitments.setValue(tpFitments.replace('FITMENTS_TABLE', fitmentsHTML));
+    editor_fitments.save();
     // document.getElementById("ta_extra_details").value = tpXtraDetails;
     editor_extra_details.setValue(tpXtraDetails.trim());
+    editor_extra_details.save();
     // document.getElementById("ta_accessories").value = tpAccessories;
     editor_accessories.setValue(tpAccessories.trim());
+    editor_accessories.save();
 
     document.getElementById("productSKU").value = prodSku;
     document.getElementById("productShortDesc").value = prodShortDesc;

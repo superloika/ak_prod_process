@@ -11,11 +11,12 @@
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
     <!-- CodeMirror Theme -->
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+    <!-- <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css"> -->
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body class="p-4">
@@ -112,7 +113,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="p-2 rounded border flex flex-col gap-2">
+                        <div class="p-2 rounded border flex flex-col gap-2 hidden">
                             <div class="flex flex-wrap gap-2">
                                 <button id="btn_productTitle"
                                     class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded">Copy Title</button>
@@ -207,7 +208,7 @@
                     </div>
                     <div class="flex flex-wrap gap-2 items-center">
                         <div>
-                            <button class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded" id="btn_wp_upload">Upload</button>
+                            <button class="bg-indigo-700 hover:bg-indigo-800 text-white p-2 rounded hidden" id="btn_wp_upload">Upload</button>
                         </div>
                         <div>
                             <div id="wp_upload_progress_result" class="text-sm"></div>
@@ -218,12 +219,17 @@
         </div>
     </div>
 
+
     <!-- CodeMirror scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/fold/xml-fold.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchtags.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closetag.min.js"></script>
+
 
     <script src="script.js"></script>
 </body>
